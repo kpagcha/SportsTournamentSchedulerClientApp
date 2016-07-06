@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="section">
+    <h2 class="header center teal-text text-lighten-1">Tournaments</h2>
+    <p class="light center" ng-show="jQuery.isEmptyObject(tournaments)">There are no tournaments.</p>
+    <div class="row center" ng-repeat="(id, tournament) in tournaments" ng-show="tournaments">
+      <div class="col s6 offset-s3">
+        <a href="#/{{id}}">
+          <div class="card-panel teal white-text">
+            <p class="light">{{tournament}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

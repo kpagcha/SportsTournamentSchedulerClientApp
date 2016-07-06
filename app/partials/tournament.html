@@ -1,0 +1,71 @@
+<div id="lead" class="section teal darken-2">
+  <div class="row">
+    <h2 class="header center teal-text text-lighten-3">{{tournament.name}}</h2>
+    <div class="col s12 center">
+      <a ng-click="viewRawJson = !viewRawJson" class="btn-floating btn-large waves-effect waves-light center">
+        <i class="material-icons">visibility</i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="players" class="section icon-block">
+    <div class="row">
+      <div class="header-wrapper center">
+        <h4 class="brown-text icon-wrapper">
+          <i class="material-icons">group</i>
+        </h4>
+        <h4 class="header">Players</h4>
+      </div>
+      <div class="content-wrapper">
+        <div class="col l3 m4 s12 center light item" ng-repeat="player in tournament.players | orderBy:'name'">
+          {{player.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="venues" class="section icon-block">
+    <div class="row">
+      <div class="header-wrapper center">
+        <h4 class="brown-text icon-wrapper">
+          <i class="material-icons">pin_drop</i>
+        </h4>
+        <h4 class="header">Venues</h4>
+      </div>
+      <div class="content-wrapper">
+        <div class="col l3 m4 s12 center light item" ng-repeat="venue in tournament.localizations">
+          {{venue.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="timeslots" class="section icon-block">
+    <div class="row">
+      <div class="header-wrapper center">
+        <h4 class="brown-text icon-wrapper">
+          <i class="material-icons">schedule</i>
+        </h4>
+        <h4 class="header">Timeslots</h4>
+      </div>
+      <div class="content-wrapper">
+        <div class="col s12 center">
+          <ul class="collection z-depth-1">
+            <li class="collection-item avatar valign-wrapper" ng-repeat="timeslot in tournament.timeslots"
+                ng-include="'partials/timeslots/timeslot.html'"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="row">
+      <div class="col s12" ng-show="viewRawJson">
+        <pre>{{tournament.prettyJson}}</pre>
+      </div>
+    </div>
+  </div>
+</div>

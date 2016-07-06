@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="tournamentSchedulerApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Tournament Scheduler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="stylesheet" href="../assets/css/material-icons.css">
+  <link rel="stylesheet" href="../assets/css/materialize.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Brawler' rel='stylesheet' type='text/css'>
+
+  <script src="angular/angular.js"></script>
+  <script src="angular/angular-resource.js"></script>
+  <script src="angular/angular-route.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+
+<div id="banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <a href="#/" class="center-block center">
+        <h1 class="header center white-text">Tournament Scheduler</h1>
+      </a>
+      <div class="row center">
+        <h5 class="col s12 white-text light">A tool that helps you plan and schedule your sports
+          tournaments</h5>
+      </div>
+      <div class="row center">
+        <a class="btn-large waves-effect wavestyles-light red darken-2">Create a tournament</a>
+      </div>
+    </div>
+  </div>
+  <div class="parallax">
+    <img src="../assets/img/banner-1.jpg" alt="Page Banner">
+  </div>
+</div>
+
+<nav ng-show="tournament">
+  <div class="nav-wrapper container">
+    <ul class="left">
+      <li class="active">
+        <a><i class="material-icons left">announcement</i>Information</a>
+      </li>
+      <li>
+        <a class="dropdown-button hide-on-large-only" data-activates="categories-dropdown">
+          Categories<i class="material-icons right">arrow_drop_down</i>
+        </a>
+        <ul id="categories-dropdown" class="dropdown-content">
+          <li ng-repeat="category in tournament.events"><a>{{category.name}}</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="right hide-on-med-and-down">
+      <li ng-repeat="category in tournament.events"><a>{{category.name}}</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="main" ng-view=""></div>
+
+<script src="../assets/js/jquery-2.1.1.js"></script>
+<script src="../assets/js/materialize.js"></script>
+<script src="../assets/js/init.js"></script>
+<script src="../assets/js/moment.js"></script>
+
+</body>
+</html>

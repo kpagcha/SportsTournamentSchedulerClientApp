@@ -1,0 +1,8 @@
+<div class="title"><span class="light">Duration of</span> {{timeslot.duration.value}}
+  <ng-pluralize count="timeslot.duration.value"
+                when="{'1':timeslot.duration.type.endsWith('s') ?
+                 timeslot.duration.type.substring(0, timeslot.duration.type.length - 1) :
+                 timeslot.duration.type,
+                 'other':timeslot.duration.type}">
+  </ng-pluralize>
+</div>

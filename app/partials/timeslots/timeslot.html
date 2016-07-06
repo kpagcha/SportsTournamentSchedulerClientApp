@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="circle order red lighten-2">
+    <div class="valign">{{timeslot.chronologicalOrder}}</div>
+  </div>
+  <div class="timeslot-content">
+    <div ng-include src="'partials/timeslots/simple.html'"
+         ng-if="!timeslot.start && !timeslot.duration"></div>
+    <div class="start" ng-include src="'partials/timeslots/start/'+timeslot.start.type+'.html'"
+         ng-if="timeslot.start"></div>
+    <div class="duration" ng-include src="'partials/timeslots/duration/duration.html'" ng-if="timeslot.duration"></div>
+    <div
+        class="light"><small>Chronological order: <span class="code">{{timeslot.chronologicalOrder}}</span></small></div>
+  </div>
+</div>

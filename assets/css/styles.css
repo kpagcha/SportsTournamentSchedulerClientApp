@@ -1,0 +1,91 @@
+.header {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#banner h1 {
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.3s ease;
+}
+
+#banner h1:hover {
+  border-bottom: 2px solid #e0e0e0;
+}
+
+#banner h5 {
+  font-family: 'Brawler', serif;
+}
+
+#banner .parallax img {
+  bottom: 40px;
+}
+
+.icon-block .header {
+  position: relative;
+  margin-top: 0;
+}
+
+.icon-block .icon-wrapper {
+  margin-bottom: 0;
+}
+
+.icon-block .header-wrapper {
+  padding-top: 30px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 4px solid #a0a0a0;
+}
+
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+.icon-block .content-wrapper .item {
+  padding: 10px 5px;
+  font-size: 16px;
+  border-bottom: 1px solid #fafafa;
+}
+
+#timeslots .header-wrapper {
+  margin-bottom: 40px;
+}
+
+#timeslots .collection {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 7px;
+}
+
+#timeslots .collection .row {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+#timeslots .order {
+  font-size: 18px;
+  line-height: 42px;
+  color: #fff;
+  background-color: #999;
+  text-align: center;
+}
+
+#timeslots .timeslot-content {
+  margin-left: 20px;
+}
+
+#timeslots .title {
+  display: inline-block;
+}
+
+#timeslots .start .title {
+  font-size: 20px;
+  border-bottom: 1px solid #d32f2f;
+}
+
+#timeslots .duration .title {
+  border-bottom: 1px solid #1976d2;
+}
+
+.code {
+  font-family: monospace, monospace;
+}

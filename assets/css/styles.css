@@ -1,3 +1,15 @@
+a {
+  cursor: pointer;
+}
+
+.code {
+  font-family: monospace, monospace;
+}
+
+.counter {
+  font-size: 18px;
+}
+
 .header {
   font-family: 'Montserrat', sans-serif;
 }
@@ -20,34 +32,34 @@
   bottom: 40px;
 }
 
-.icon-block .header {
+.section.with-header .header {
   position: relative;
   margin-top: 0;
 }
 
-.icon-block .icon-wrapper {
+.section.with-header .icon-wrapper {
   margin-bottom: 0;
 }
 
-.icon-block .header-wrapper {
+.section.with-header .header-wrapper {
   padding-top: 30px;
   margin-top: 0;
   margin-bottom: 20px;
   border-bottom: 4px solid #a0a0a0;
 }
 
-.icon-block .material-icons {
+.section.with-header .material-icons {
   font-size: inherit;
 }
 
-.icon-block .content-wrapper .item {
+.section.with-header .content-wrapper .item {
   padding: 10px 5px;
   font-size: 16px;
   border-bottom: 1px solid #fafafa;
 }
 
-#timeslots .header-wrapper {
-  margin-bottom: 40px;
+#timeslots .collection-wrapper {
+  margin-top: 30px;
 }
 
 #timeslots .collection {
@@ -86,6 +98,85 @@
   border-bottom: 1px solid #1976d2;
 }
 
-.code {
-  font-family: monospace, monospace;
+#json .modal-content {
+  position: relative;
+}
+
+#json .header {
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+#event .card-wrapper {
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.card.custom {
+  text-align: center;
+}
+
+.card.custom .card-content {
+  background-color: #ef9a9a;
+  color: #fff;
+  font-size: 42px;
+  font-family: 'Montserrat', sans-serif;
+  height: 150px;
+}
+
+.card.custom .card-content .content {
+  width: 100%;
+}
+
+.card.custom .card-action {
+  font-size: 18px;
+}
+
+#main-content .container {
+  width: 80%;
+}
+
+#teams .team {
+  padding: 0 40px;
+  margin-top: 10px;
+}
+
+.section .content-wrapper .lead {
+  margin-bottom: 25px;
+}
+
+#timeslots .collection .break {
+  background-color: #eee;
+}
+
+#timeslots .legend {
+  width: 100px;
+  margin-top: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#timeslots .legend .break {
+  position: relative;
+}
+
+#timeslots .legend .break .color {
+  display: inline-block;
+  background-color: #eee;
+  border: 1px solid #e0e0e0;
+  width: 15px;
+  height:15px;
+}
+
+#timeslots .legend .break .description {
+  position: absolute;
+  right: 3px;
+}
+
+.table-of-contents .divider {
+  height: 0;
+  width: 75%;
+  margin: 0 auto;
+  background-color: transparent;
+  border-bottom: 2px solid #eee;
 }

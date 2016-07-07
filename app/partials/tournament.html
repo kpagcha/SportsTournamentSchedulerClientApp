@@ -1,71 +1,70 @@
-<div id="lead" class="section teal darken-2">
+<div id="lead" class="section teal darken-2 scrollspy">
   <div class="row">
     <h2 class="header center teal-text text-lighten-3">{{tournament.name}}</h2>
     <div class="col s12 center">
-      <a ng-click="viewRawJson = !viewRawJson" class="btn-floating btn-large waves-effect waves-light center">
-        <i class="material-icons">visibility</i>
-      </a>
+      <button data-target="json" class="btn-floating btn-large waves-effect waves-light center modal-trigger"><i
+          class="material-icons">visibility</i></button>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div id="players" class="section icon-block">
+<div class="section teal darken-3" ng-show="event">
+  <div class="row">
+    <h4 class="header center teal-text text-lighten-2">{{event.name}}</h4>
+  </div>
+</div>
+
+<div id="json" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4 class="header grey-text center">Raw Tournament JSON</h4>
     <div class="row">
-      <div class="header-wrapper center">
-        <h4 class="brown-text icon-wrapper">
-          <i class="material-icons">group</i>
-        </h4>
-        <h4 class="header">Players</h4>
+      <div class="col s12">
+        <pre>{{tournament.json}}</pre>
       </div>
-      <div class="content-wrapper">
-        <div class="col l3 m4 s12 center light item" ng-repeat="player in tournament.players | orderBy:'name'">
-          {{player.name}}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="" class="modal-action modal-close waves-effect btn-flat">Close</a>
+  </div>
+</div>
+
+<div class="row">
+  <div id="main-content" class="col s12 l9 offset-l1">
+    <div class="section">
+      <div class="container">
+        <div id="players" class="section with-header scrollspy">
+          <div class="row" ng-include="'partials/players.html'"></div>
+        </div>
+
+        <div id="venues" class="section with-header scrollspy">
+          <div class="row" ng-include="'partials/venues.html'"></div>
+        </div>
+
+        <div id="timeslots" class="section with-header scrollspy">
+          <div class="row" ng-include="'partials/timeslots.html'"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" ng-show="event">
+      <div class="container">
+        <div id="event" class="section scrollspy">
+          <div class="row" ng-include="'partials/event.html'"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="venues" class="section icon-block">
-    <div class="row">
-      <div class="header-wrapper center">
-        <h4 class="brown-text icon-wrapper">
-          <i class="material-icons">pin_drop</i>
-        </h4>
-        <h4 class="header">Venues</h4>
-      </div>
-      <div class="content-wrapper">
-        <div class="col l3 m4 s12 center light item" ng-repeat="venue in tournament.localizations">
-          {{venue.name}}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="timeslots" class="section icon-block">
-    <div class="row">
-      <div class="header-wrapper center">
-        <h4 class="brown-text icon-wrapper">
-          <i class="material-icons">schedule</i>
-        </h4>
-        <h4 class="header">Timeslots</h4>
-      </div>
-      <div class="content-wrapper">
-        <div class="col s12 center">
-          <ul class="collection z-depth-1">
-            <li class="collection-item avatar valign-wrapper" ng-repeat="timeslot in tournament.timeslots"
-                ng-include="'partials/timeslots/timeslot.html'"></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="row">
-      <div class="col s12" ng-show="viewRawJson">
-        <pre>{{tournament.prettyJson}}</pre>
-      </div>
+  <div class="col l2 hide-on-med-and-down">
+    <div class="toc-wrapper pin-top">
+      <ul class="section table-of-contents">
+        <li><a href="#lead">Tournament</a></li>
+        <li class="divider"></li>
+        <li><a href="#players">Players</a></li>
+        <li><a href="#venues">Venues</a></li>
+        <li><a href="#timeslots">Timeslots</a></li>
+        <li ng-show="event"><a href="#event">Additional information</a></li>
+      </ul>
     </div>
   </div>
 </div>

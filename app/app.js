@@ -1,14 +1,4 @@
-var app = angular.module('tournamentSchedulerApp', ['ngRoute']).run(function ($rootScope) {
-  $rootScope.helpers = {
-    moment: function (str, format) {
-      if (typeof str === 'undefined')
-        return moment();
-      if (typeof format === 'undefined')
-        return moment(str);
-      return moment(str, format);
-    }
-  };
-});
+var app = angular.module('tournamentSchedulerApp', ['ngRoute']);
 
 app.factory('service', ['$http', function ($http) {
   var servicePath = 'http://localhost:8080/eventscheduler/';
@@ -56,3 +46,17 @@ app.config(['$routeProvider', function ($routeProvider) {
       redirectTo: '#/'
     });
 }]);
+
+app.run(function ($rootScope) {
+  $rootScope.jQuery = jQuery;
+
+  $rootScope.helpers = {
+    moment: function (str, format) {
+      if (typeof str === 'undefined')
+        return moment();
+      if (typeof format === 'undefined')
+        return moment(str);
+      return moment(str, format);
+    }
+  };
+});

@@ -1,0 +1,63 @@
+<div class="section">
+  <div class="row">
+    <div class="col s12 l4 card-wrapper">
+      <div class="card custom">
+        <div class="card-content valign-wrapper">
+          <div class="content valign">{{event.playersPerMatch}}</div>
+        </div>
+        <div class="card-action light">Number of players per match</div>
+      </div>
+    </div>
+    <div class="col s12 l4 card-wrapper">
+      <div class="card custom">
+        <div class="card-content valign-wrapper">
+          <div class="content valign">{{event.matchesPerPlayer}}</div>
+        </div>
+        <div class="card-action light">Number of matches per player</div>
+      </div>
+    </div>
+    <div class="col s12 l4 card-wrapper">
+      <div class="card custom">
+        <div class="card-content valign-wrapper">
+          <div class="content valign">
+            {{event.timeslotsPerMatch}}
+          </div>
+        </div>
+        <div class="card-action light">Match duration
+          <div>
+            <small>number of timeslots per match</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="teams" class="section with-header" ng-show="event.teams">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">people</i>
+      </h4>
+      <h4 class="header">Teams</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row lead">
+        <div class="col s12 center grey-text light counter">
+          <strong>{{event.teams.length}} teams</strong> of {{event.playersPerTeam}} players
+        </div>
+        <div class="col s12 center grey-text light counter">
+          <small>{{event.players.length - event.teams.length * event.playersPerTeam}} players unassigned</small>
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col l6 s12 center light item team" ng-repeat="team in event.teams">
+          <div class="name grey-text text-darken-1"><strong>{{team.name}}</strong></div>
+          <ul class="players collection">
+            <li class="li collection-item" ng-repeat="playerIndex in team.players">{{getPlayer(playerIndex).name}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

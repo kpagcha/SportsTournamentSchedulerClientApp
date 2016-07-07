@@ -1,0 +1,22 @@
+<div class="header-wrapper center">
+  <h4 class="brown-text icon-wrapper">
+    <i class="material-icons icon">schedule</i>
+  </h4>
+  <h4 class="header">Timeslots</h4>
+</div>
+<div class="content-wrapper">
+  <div class="col s12 center grey-text light counter">{{timeslots.length}} timeslots</div>
+  <div class="col s12 center collection-wrapper">
+    <ul class="collection z-depth-1">
+      <li class="collection-item avatar valign-wrapper" ng-repeat="timeslot in timeslots"
+          ng-include="'partials/timeslots/timeslot.html'"
+          ng-class="{'break':isBreak($index)}"></li>
+    </ul>
+    <div class="legend" ng-show="event.breaks">
+      <div class="break">
+        <div class="color"></div>
+        <small class="light description">Breaks</small>
+      </div>
+    </div>
+  </div>
+</div>

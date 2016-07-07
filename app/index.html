@@ -15,6 +15,11 @@
   <script src="angular/angular-resource.js"></script>
   <script src="angular/angular-route.js"></script>
   <script src="app.js"></script>
+
+  <script src="../assets/js/jquery-2.1.1.js"></script>
+  <script src="../assets/js/materialize.js"></script>
+  <script src="../assets/js/init.js"></script>
+  <script src="../assets/js/moment.js"></script>
 </head>
 
 <body>
@@ -42,30 +47,29 @@
 <nav ng-show="tournament">
   <div class="nav-wrapper container">
     <ul class="left">
-      <li class="active">
-        <a><i class="material-icons left">announcement</i>Information</a>
+      <li ng-class="{'active':selected === 'info'}" ng-click="selected = 'info'">
+        <a ng-click="showTournament()"><i class="material-icons left">announcement</i>Information</a>
       </li>
       <li>
         <a class="dropdown-button hide-on-large-only" data-activates="categories-dropdown">
           Categories<i class="material-icons right">arrow_drop_down</i>
         </a>
         <ul id="categories-dropdown" class="dropdown-content">
-          <li ng-repeat="category in tournament.events"><a>{{category.name}}</a></li>
+          <li ng-repeat="category in tournament.events" ng-class="{'active':selected === $index}">
+            <a ng-click="showEvent($index)">{{category.name}}</a>
+          </li>
         </ul>
       </li>
     </ul>
     <ul class="right hide-on-med-and-down">
-      <li ng-repeat="category in tournament.events"><a>{{category.name}}</a></li>
+      <li ng-repeat="category in tournament.events" ng-class="{'active':selected === $index}">
+        <a ng-click="showEvent($index)">{{category.name}}</a>
+      </li>
     </ul>
   </div>
 </nav>
 
 <div id="main" ng-view=""></div>
-
-<script src="../assets/js/jquery-2.1.1.js"></script>
-<script src="../assets/js/materialize.js"></script>
-<script src="../assets/js/init.js"></script>
-<script src="../assets/js/moment.js"></script>
 
 </body>
 </html>

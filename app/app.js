@@ -22,9 +22,88 @@ app.controller('TournamentListController', function ($scope, $rootScope, service
 
 app.controller('TournamentController', function ($scope, $rootScope, service, tournament) {
   var original = tournament.data;
+
+  var allPlayers = original.players;
+  var allVenues = original.localizations;
+  var allTimeslots = original.timeslots;
+
   $scope.tournament = angular.copy(original);
   $rootScope.tournament = $scope.tournament;
-  $scope.tournament.prettyJson = JSON.stringify($scope.tournament, null, 2);
+  $scope.tournament.json = JSON.stringify($scope.tournament, null, 2);
+
+  $rootScope.selected = 'info';
+  $scope.players = $scope.tournament.players;
+  $scope.venues = $scope.tournament.localizations;
+  $scope.timeslots = $scope.tournament.timeslots;
+
+  $('.dropdown-button').dropdown({hover: true, belowOrigin: true});
+  $('.modal-trigger').leanModal();
+  $('.toc-wrapper').pushpin({
+    top: $('.toc-wrapper').offset().top,
+    offset: Math.max(0, (($(window).height() - $('.toc-wrapper').outerHeight()) / 2) + $(window).scrollTop())
+  });
+  $('.scrollspy').scrollSpy();
+
+  $rootScope.showTournament = function () {
+    $scope.players = $scope.tournament.players;
+    $scope.venues = $scope.tournament.localizations;
+    $scope.timeslots = $scope.tournament.timeslots;
+
+    $scope.event = null;
+  };
+
+  $rootScope.showEvent = function (index) {
+    $rootScope.selected = index;
+
+    var events = $scope.tournament.events;
+    if (index < 0 || index >= events.length)
+      return;
+
+    var event = events[index];
+    $scope.event = event;
+
+    $scope.players = [];
+    $scope.venues = [];
+    $scope.timeslots = [];
+
+    event.players.forEach(function (i) {
+      $scope.players.push(allPlayers[i]);
+    });
+
+    event.localizations.forEach(function (i) {
+      $scope.venues.push(allVenues[i]);
+    });
+
+    event.timeslots.forEach(function (i) {
+      $scope.timeslots.push(allTimeslots[i]);
+    });
+  };
+
+  $scope.getPlayer = function (index) {
+    return allPlayers[index];
+  };
+
+  $scope.getVenue = function (index) {
+    return allVenues[index];
+  };
+
+  $scope.getTimeslot = function (index) {
+    return allTimeslots[index];
+  };
+
+  $scope.isBreak = function (index) {
+    if (!$scope.event)
+      return false;
+    return $.inArray($scope.event.timeslots[index], $scope.event.breaks) != -1;
+  };
+
+  /* ATECIÓN ESTÁ ESTO DE FORMA TEMPORAL PARA VER COMO QUEDA LA PAGINA DE EVENTO.
+   QUITAR CUANDO ESTÉ TERMINADA
+   */
+  $scope.showEvent(2);
+  /**
+   * FIN. CUANDO ESTE TERMINADO BORRAR LO DE ARRIBA
+   */
 });
 
 app.config(['$routeProvider', function ($routeProvider) {

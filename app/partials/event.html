@@ -109,3 +109,79 @@
     </div>
   </div>
 </div>
+
+<div class="section with-header timetable" ng-show="event.unavailableLocalizations">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">location_off</i>
+      </h4>
+      <h4 class="header">Venues' unavailable timeslots</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row content">
+        <table class="responsive-table">
+          <thead>
+          <tr>
+            <th colspan="1"></th>
+            <th class="theader" ng-repeat="timeslot in timeslots">{{getTimeslotDisplay($index)}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="venue in venues">
+            <td class="theader other">{{venue.name}}</td>
+            <td ng-repeat="timeslot in timeslots">
+              <div class="slot"
+                   ng-class="{'unavailable':isVenueUnavailable($parent.$index, $index), 'break':isBreak($index)}"></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <div class="row">
+          <div class="col s12 m6 item unavailable">
+            <div class="color"></div>
+            <small class="light description">Venue unavailable at timeslot</small>
+          </div>
+          <div class="col s12 m6 item break">
+            <div class="color"></div>
+            <small class="light description">Break</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section with-header timetable" ng-show="event.playersInLocalizations">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">pin_drop</i>
+      </h4>
+      <h4 class="header">Players' assigned venues</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row content">
+        <table class="responsive-table">
+          <thead>
+          <tr>
+            <th colspan="1"></th>
+            <th class="theader" ng-repeat="venue in venues">{{venue.name}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="player in players">
+            <td class="theader other">{{player.name}}</td>
+            <td ng-repeat="venue in venues">
+              <div class="slot"
+                   ng-class="{'assigned':isVenueAssigned($parent.$index, $index)}"></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

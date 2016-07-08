@@ -141,11 +141,25 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
       $scope.event.unavailablePlayers[$scope.event.players[playerIdx]]) != -1;
   };
 
+  $scope.isVenueUnavailable = function (venueIdx, timeslotIdx) {
+    if (!$scope.event || !$scope.event.unavailableLocalizations)
+      return false;
+    return $.inArray($scope.event.timeslots[timeslotIdx],
+      $scope.event.unavailableLocalizations[$scope.event.localizations[venueIdx]]) != -1;
+  };
+
   $scope.isTimeslotAssigned = function (playerIdx, timeslotIdx) {
     if (!$scope.event || !$scope.event.playersAtTimeslots)
       return false;
     return $.inArray($scope.event.timeslots[timeslotIdx],
       $scope.event.playersAtTimeslots[$scope.event.players[playerIdx]]) != -1;
+  };
+
+  $scope.isVenueAssigned = function (playerIdx, venueIdx) {
+    if (!$scope.event || !$scope.event.playersInLocalizations)
+      return true;
+    return $.inArray($scope.event.localizations[venueIdx],
+      $scope.event.playersInLocalizations[$scope.event.players[playerIdx]]) != -1;
   };
 
   /* ATECIÓN ESTÁ ESTO DE FORMA TEMPORAL PARA VER COMO QUEDA LA PAGINA DE EVENTO.

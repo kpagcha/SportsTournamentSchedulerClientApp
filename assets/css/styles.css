@@ -165,7 +165,7 @@ a {
   font-size: 14px;
 }
 
-.timetable .theader.player {
+.timetable .theader.other {
   padding-left: 15px;
 }
 
@@ -205,6 +205,7 @@ a {
 .legend .item {
   position: relative;
   width: 100%;
+  margin: 0 auto;
 }
 
 .legend .item .color {
@@ -236,5 +237,4 @@ a {
 .legend .item .description {
   position: absolute;
   margin-left: 5px;
-  width: 100%;
 }

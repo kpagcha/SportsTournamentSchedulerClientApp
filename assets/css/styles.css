@@ -149,34 +149,92 @@ a {
   background-color: #eee;
 }
 
-#timeslots .legend {
-  width: 100px;
-  margin-top: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-#timeslots .legend .break {
-  position: relative;
-}
-
-#timeslots .legend .break .color {
-  display: inline-block;
-  background-color: #eee;
-  border: 1px solid #e0e0e0;
-  width: 15px;
-  height:15px;
-}
-
-#timeslots .legend .break .description {
-  position: absolute;
-  right: 3px;
-}
-
 .table-of-contents .divider {
   height: 0;
   width: 75%;
   margin: 0 auto;
   background-color: transparent;
   border-bottom: 2px solid #eee;
+}
+
+.timetable .header {
+  font-size: 28px;
+}
+
+.timetable .theader {
+  font-size: 14px;
+}
+
+.timetable .theader.player {
+  padding-left: 15px;
+}
+
+.timetable td {
+  border-radius: 0;
+  padding: 10px 5px;
+}
+
+.timetable td .slot {
+  min-height: 32px;
+  border-radius: 5px;
+}
+
+.timetable .content .assigned {
+  background-color: #81c784;
+}
+
+.timetable .content .unavailable {
+  background-color: #ef5350;
+}
+
+.timetable .content .break {
+  background-color: #757575;
+}
+
+.legend {
+  width: 100px;
+  margin-top: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.timetable .legend {
+  width: 400px;
+}
+
+.legend .item {
+  position: relative;
+  width: 100%;
+}
+
+.legend .item .color {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}
+
+.legend .item.break .color {
+  background-color: #eee;
+  border: 1px solid #e0e0e0;
+}
+
+.timetable .legend .item.break .color {
+  background-color: #757575;
+  border: 1px solid #6a6a6a;
+}
+
+.legend .item.unavailable .color {
+  background-color: #ef5350;
+  border: 1px solid #ef5350;
+}
+
+.legend .item.assigned .color {
+  background-color: #81c784;
+  border: 1px solid #81c784;
+}
+
+.legend .item .description {
+  position: absolute;
+  margin-left: 5px;
+  width: 100%;
 }

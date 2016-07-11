@@ -2,8 +2,14 @@
   <div class="row">
     <h2 class="header center teal-text text-lighten-3">{{tournament.name}}</h2>
     <div class="col s12 center">
-      <button data-target="json" class="btn-floating btn-large waves-effect waves-light center modal-trigger"><i
-          class="material-icons">visibility</i></button>
+      <button data-target="json"
+              class="btn-floating btn-large waves-effect waves-light center modal-trigger">
+        <i class="material-icons">visibility</i>
+      </button>
+      <button ng-click="deleteTournament()"
+              class="btn-floating btn-large waves-effect waves-light center red darken-1">
+        <i class="material-icons">clear</i>
+      </button>
     </div>
   </div>
 </div>
@@ -65,6 +71,13 @@
         <li><a href="#timeslots">Timeslots</a></li>
         <li class="divider" ng-show="event"></li>
         <li ng-show="event"><a href="#event">See more</a></li>
+        <li ng-show="event.teams"><a id="teams-link" href="">Teams</a></li>
+        <li ng-show="event.unavailablePlayers || event.playersAtTimeslots">
+          <a id="assigned-and-unavailable-link" href="">Unavailable players & assigned timeslots</a>
+        </li>
+        <li ng-show="event.unavailableLocalizations"><a id="unavailable-venues-link" href="">Unavailable venues</a></li>
+        <li ng-show="event.playersInLocalizations"><a id="assigned-venues-link" href="">Assigned venues</a></li>
+        <li ng-show="event.predefinedMatchups"><a id="matchups-link" href="">Match-ups</a></li>
       </ul>
     </div>
   </div>

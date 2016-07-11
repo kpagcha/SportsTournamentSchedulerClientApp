@@ -8,6 +8,9 @@ app.factory('service', ['$http', function ($http) {
     },
     getTournament: function (id) {
       return $http.get(servicePath + id);
+    },
+    deleteTournament: function (id) {
+      return $http.delete(servicePath + id);
     }
   };
 }]);
@@ -20,7 +23,7 @@ app.controller('TournamentListController', function ($scope, $rootScope, service
   $rootScope.tournament = null;
 });
 
-app.controller('TournamentController', function ($scope, $rootScope, service, tournament) {
+app.controller('TournamentController', function ($scope, $rootScope, $routeParams, $window, service, tournament) {
   var original = tournament.data;
 
   var allPlayers = original.players;
@@ -28,6 +31,7 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
   var allTimeslots = original.timeslots;
 
   $scope.tournament = angular.copy(original);
+  $scope.tournament.id = $routeParams.id;
   $rootScope.tournament = $scope.tournament;
   $scope.tournament.json = JSON.stringify($scope.tournament, null, 2);
 
@@ -43,6 +47,32 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
     offset: Math.max(0, (($(window).height() - $('.toc-wrapper').outerHeight()) / 2) + $(window).scrollTop())
   });
   $('.scrollspy').scrollSpy();
+
+  var scrollTo = function (selector) {
+    var offset = $(selector).offset().top + 1;
+    $('html, body').animate({ scrollTop: offset }, {duration: 400, queue: false, easing: 'easeOutCubic'});
+  };
+
+  $('#teams-link').click(function (e) {
+    e.preventDefault();
+    scrollTo('#teams');
+  });
+  $('#assigned-and-unavailable-link').click(function (e) {
+    e.preventDefault();
+    scrollTo('#assigned-and-unavailable-timeslots');
+  });
+  $('#unavailable-venues-link').click(function (e) {
+    e.preventDefault();
+    scrollTo('#unavailable-venues');
+  });
+  $('#assigned-venues-link').click(function (e) {
+    e.preventDefault();
+    scrollTo('#assigned-venues');
+  });
+  $('#matchups-link').click(function (e) {
+    e.preventDefault();
+    scrollTo('#matchups');
+  });
 
   $rootScope.showTournament = function () {
     $scope.players = $scope.tournament.players;
@@ -76,6 +106,13 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
     $scope.event.timeslots.forEach(function (i) {
       $scope.timeslots.push(allTimeslots[i]);
     });
+  };
+
+  $rootScope.deleteTournament = function () {
+    if (confirm("Are you sure you want to delete this tournament?") == true)
+      service.deleteTournament($scope.tournament.id).then(function () {
+        $window.location.href = "";
+      });
   };
 
   $scope.getPlayer = function (index) {
@@ -167,6 +204,8 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
   };
 
   $scope.isMatchupModeRelevant = function () {
+    if (!$scope.event)
+      return false;
     return $scope.event.playersPerMatch > 1 && $scope.event.matchesPerPlayer > 1;
   };
 
@@ -175,14 +214,56 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
       return "";
     return $scope.event.matchupMode.replace("_", " ");
   };
+});
 
-  /* ATECIÓN ESTÁ ESTO DE FORMA TEMPORAL PARA VER COMO QUEDA LA PAGINA DE EVENTO.
-   QUITAR CUANDO ESTÉ TERMINADA
-   */
-  $scope.showEvent(0);
-  /**
-   * FIN. CUANDO ESTE TERMINADO BORRAR LO DE ARRIBA
-   */
+app.controller('TournamentCreateController', function ($scope, $rootScope, service) {
+  $rootScope.tournament = null;
+  //$('body').addClass('yellow lighten-5');
+
+  $('select').material_select();
+
+  $scope.tournament = {};
+
+  $scope.tournament.players = [];
+  $scope.tournament.venues = [];
+  $scope.tournament.timeslots = [];
+  $scope.tournament.playersPerMatch = 2;
+  $scope.tournament.matchesPerPlayer = 1;
+  $scope.tournament.timeslotsPerMatch = 2;
+
+  $scope.timeslot = {};
+  $scope.timeslot.chronologicalOrder = 1;
+
+  $scope.addPlayer = function () {
+    if (!$scope.player)
+      return;
+    $scope.tournament.players.push($scope.player);
+    $scope.player = null;
+  };
+
+  $scope.deletePlayer = function (index) {
+    if (index > -1)
+      $scope.tournament.players.splice(index, 1);
+  };
+
+  $scope.addVenue = function () {
+    if (!$scope.venue)
+      return;
+    $scope.tournament.venues.push($scope.venue);
+    $scope.venue = null;
+  };
+
+  $scope.deleteVenue = function (index) {
+    if (index > -1)
+      $scope.tournament.venues.splice(index, 1);
+  };
+  
+  $scope.addTimeslot = function () {
+    if (!$scope.timeslot)
+      return;
+    $scope.tournament.timeslots.push($scope.timeslot);
+    $scope.timeslot = null;
+  }
 });
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -190,6 +271,10 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when('/', {
       templateUrl: 'partials/list.html',
       controller: 'TournamentListController'
+    })
+    .when('/create', {
+      templateUrl: 'partials/form.html',
+      controller: 'TournamentCreateController'
     })
     .when('/:id', {
       templateUrl: 'partials/tournament.html',

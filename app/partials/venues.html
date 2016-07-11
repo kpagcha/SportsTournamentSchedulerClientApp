@@ -6,5 +6,5 @@
 </div>
 <div class="content-wrapper">
   <div class="col s12 center grey-text light counter">{{venues.length}} venues</div>
-  <div class="col l3 m4 s12 center light item" ng-repeat="venue in venues">{{venue.name}}</div>
+  <div class="col l3 m4 s12 center light item" ng-repeat="venue in venues track by $index">{{venue.name}}</div>
 </div>

@@ -1,0 +1,128 @@
+<div id="lead" class="section amber lighten-2">
+  <div class="row">
+    <h2 class="header center amber-text text-lighten-4">New tournament</h2>
+  </div>
+</div>
+
+<div class="container form-container z-depth-2 grey lighten-4">
+  <div class="row">
+    <form class="col s12">
+      <div class="row" style="margin-bottom: 35px">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">translate</i>
+          <input id="name" type="text" placeholder="Name your tournament">
+          <label class="active" for="name">Name</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="players-per-match" type="number" ng-model="tournament.playersPerMatch" min="1">
+          <label class="active" for="players-per-match">Number of players per match</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="matches-per-player" type="number" ng-model="tournament.matchesPerPlayer" min="1">
+          <label class="active" for="matches-per-player">Number of matches per player</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="timeslots-per-match" type="number" ng-model="tournament.timeslotsPerMatch" min="1">
+          <label class="active" for="timeslots-per-match">Number of timeslots per match</label>
+        </div>
+      </div>
+
+      <div class="row domain">
+        <div class="col s12">
+          <h6>Players</h6>
+        </div>
+        <div class="input-field col s12">
+          <input id="player-name" type="text" ng-model="player" autocomplete="off">
+          <label for="player-name">Player name</label>
+          <button class="btn btn-floating waves-effect orange lighten-1 inline-button" ng-click="addPlayer()">
+            <i class="material-icons right">add</i>
+          </button>
+        </div>
+        <div class="col s12">
+          <div class="chip" ng-repeat="player in tournament.players track by $index" ng-click="deletePlayer($index)">
+            {{player}} <span>&#10005;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row domain">
+        <div class="col s12">
+          <h6>Venues</h6>
+        </div>
+        <div class="input-field col s12">
+          <input id="venue-name" type="text" ng-model="venue" autocomplete="off">
+          <label for="venue-name">Venue name</label>
+          <button class="btn btn-floating waves-effect orange lighten-1 inline-button" ng-click="addVenue()">
+            <i class="material-icons right">add</i>
+          </button>
+        </div>
+        <div class="col s12">
+          <div class="chip" ng-repeat="venue in tournament.venues track by $index" ng-click="deleteVenue($index)">
+            {{venue}} <span>&#10005;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row domain">
+        <div class="col s12">
+          <h6>Timeslots</h6>
+        </div>
+        <div class="input-field col s12">
+          <input type="number" id="chronological-order" ng-model="timeslot.chronologicalOrder" autocomplete="off">
+          <label class="active" for="chronological-order">Chronological order</label>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <div>
+              <input type="checkbox" id="with-start" ng-model="withStart">
+              <label for="with-start">With start</label>
+            </div>
+            <div>
+              <input type="checkbox" id="with-duration" ng-model="withDuration">
+              <label for="with-duration">With duration</label>
+            </div>
+          </div>
+        </div>
+        <div class="input-field col s12">
+          <div ng-show="withStart">
+            <select id="start-type" ng-model="startType">
+              <option value="day-of-week">Day of week</option>
+              <option value="month">Month</option>
+              <option value="month-day">Day and month</option>
+              <option value="year">Year</option>
+              <option value="year-month">Month and year</option>
+              <option value="local-time" selected>Time</option>
+              <option value="local-date">Date</option>
+              <option value="local-date-time">Date and time</option>
+            </select>
+            <label for="start-type">Start type</label>
+          </div>
+        </div>
+        <div class="input-field col s12">
+          <div ng-show="withDuration">
+            <select id="duration-type" ng-model="durationType">
+              <option value="millis">Milliseconds</option>
+              <option value="seconds">Seconds</option>
+              <option value="minutes">Minutes</option>
+              <option value="hours" selected>Hours</option>
+              <option value="days">Days</option>
+              <option value="weeks">Weeks</option>
+              <option value="months">Months</option>
+              <option value="years">Years</option>
+            </select>
+            <label for="duration-type">Duration type</label>
+          </div>
+        </div>
+        <div class="col s12 center">
+          <button class="btn waves-effect amber darken-2" ng-click="addTimeslot()">
+            <i class="material-icons right">add</i>Add timeslot
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

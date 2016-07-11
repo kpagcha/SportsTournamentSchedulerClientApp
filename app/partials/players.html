@@ -6,6 +6,6 @@
 </div>
 <div class="content-wrapper">
   <div class="col s12 center grey-text light counter">{{players.length}} players</div>
-  <div class="col l3 m4 s12 center light item" ng-repeat="player in players | orderBy:'name'">{{player
+  <div class="col l3 m4 s12 center light item" ng-repeat="player in players track by $index">{{player
     .name}}</div>
 </div>

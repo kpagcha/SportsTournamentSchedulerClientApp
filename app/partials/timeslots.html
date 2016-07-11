@@ -8,7 +8,7 @@
   <div class="col s12 center grey-text light counter">{{timeslots.length}} timeslots</div>
   <div class="col s12 center collection-wrapper">
     <ul class="collection z-depth-1">
-      <li class="collection-item avatar valign-wrapper" ng-repeat="timeslot in timeslots"
+      <li class="collection-item avatar valign-wrapper" ng-repeat="timeslot in timeslots track by $index"
           ng-include="'partials/timeslots/timeslot.html'"
           ng-class="{'break':isBreak($index)}"></li>
     </ul>

@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="row content">
-        <div class="col l6 s12 center light item team" ng-repeat="team in event.teams">
+        <div class="col l6 s12 center light item team" ng-repeat="team in event.teams track by $index">
           <div class="name grey-text text-darken-1"><strong>{{team.name}}</strong></div>
           <ul class="players collection">
             <li class="li collection-item" ng-repeat="playerIndex in team.players">{{getPlayer(playerIndex).name}}</li>
@@ -62,7 +62,8 @@
   </div>
 </div>
 
-<div class="section with-header timetable" ng-show="event.unavailablePlayers || event.playersAtTimeslots">
+<div id="assigned-and-unavailable-timeslots" class="section with-header timetable"
+     ng-show="event.unavailablePlayers || event.playersAtTimeslots">
   <div class="row">
     <div class="header-wrapper center">
       <h4 class="brown-text icon-wrapper">
@@ -80,9 +81,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="player in players">
+          <tr ng-repeat="player in players track by $index">
             <td class="theader player">{{player.name}}</td>
-            <td ng-repeat="timeslot in timeslots">
+            <td ng-repeat="timeslot in timeslots track by $index">
               <div class="slot" ng-class="{'unavailable':isPlayerUnavailable($parent.$index, $index),
                               'assigned':isTimeslotAssigned($parent.$index, $index), 'break':isBreak($index)}"></div>
             </td>
@@ -110,7 +111,7 @@
   </div>
 </div>
 
-<div class="section with-header timetable" ng-show="event.unavailableLocalizations">
+<div id="unavailable-venues" class="section with-header timetable" ng-show="event.unavailableLocalizations">
   <div class="row">
     <div class="header-wrapper center">
       <h4 class="brown-text icon-wrapper">
@@ -128,9 +129,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="venue in venues">
+          <tr ng-repeat="venue in venues track by $index">
             <td class="theader other">{{venue.name}}</td>
-            <td ng-repeat="timeslot in timeslots">
+            <td ng-repeat="timeslot in timeslots track by $index">
               <div class="slot"
                    ng-class="{'unavailable':isVenueUnavailable($parent.$index, $index), 'break':isBreak($index)}"></div>
             </td>
@@ -154,7 +155,7 @@
   </div>
 </div>
 
-<div class="section with-header timetable" ng-show="event.playersInLocalizations">
+<div id="assigned-venues" class="section with-header timetable" ng-show="event.playersInLocalizations">
   <div class="row">
     <div class="header-wrapper center">
       <h4 class="brown-text icon-wrapper">
@@ -168,13 +169,13 @@
           <thead>
           <tr>
             <th colspan="1"></th>
-            <th class="theader" ng-repeat="venue in venues">{{venue.name}}</th>
+            <th class="theader" ng-repeat="venue in venues track by $index">{{venue.name}}</th>
           </tr>
           </thead>
           <tbody>
-          <tr ng-repeat="player in players">
+          <tr ng-repeat="player in players track by $index">
             <td class="theader other">{{player.name}}</td>
-            <td ng-repeat="venue in venues">
+            <td ng-repeat="venue in venues track by $index">
               <div class="slot"
                    ng-class="{'assigned':isVenueAssigned($parent.$index, $index)}"></div>
             </td>
@@ -186,21 +187,20 @@
   </div>
 </div>
 
-
 <div id="matchups" class="section with-header" ng-show="event.predefinedMatchups">
   <div class="row">
     <div class="header-wrapper center">
       <h4 class="brown-text icon-wrapper">
         <i class="material-icons icon">assignment</i>
       </h4>
-      <h4 class="header">Predefined matchups</h4>
+      <h4 class="header">Predefined match-ups</h4>
     </div>
     <div class="content-wrapper">
       <div class="row">
         <div class="col s12 center grey-text light counter">
           {{event.predefinedMatchups.length}}
           <ng-pluralize count="event.predefinedMatchups.length"
-                        when="{'1':'matchup','other':'matchups'}"></ng-pluralize>
+                        when="{'1':'match-up','other':'match-ups'}"></ng-pluralize>
         </div>
         <div class="col s12 center grey-text light counter matchup-mode" ng-show="isMatchupModeRelevant()">
           Matchup mode &ndash; <span class="value">{{getMatchupMode()}}</span>
@@ -209,7 +209,7 @@
       <div class="matchups-wrapper row">
         <div class="col s12 center matchup" ng-repeat="matchup in event.predefinedMatchups track by $index">
           <div class="title-wrapper blue lighten-2">
-            <h5 class="header title">Matchup {{$index + 1}}</h5>
+            <h5 class="header title">Match-up {{$index + 1}}</h5>
           </div>
           <div class="content row indigo lighten-5">
             <div class="col s12 m4">

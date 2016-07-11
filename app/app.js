@@ -90,7 +90,7 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
     return allTimeslots[index];
   };
 
-  $scope.getTimeslotDisplay = function (index) {
+  $scope.getTimeslotDisplay = function (index, includeChronologicalOrder) {
     var t = allTimeslots[index];
     var start = t.start;
 
@@ -115,15 +115,19 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
         str = moment(timeslot.start.value).format("MMM Do YYYY, HH:mm");
         break;
     }
-    return str;
+
+    if (includeChronologicalOrder)
+      str += " (" + t.chronologicalOrder + ")";
+
+    return  str;
   };
 
-  $scope.getDuration = function (timeslot) {
+  $scope.getDurationDisplay = function (timeslot) {
     if (!timeslot.duration)
       return "";
 
     var str = timeslot.duration.value + " " + timeslot.duration.type;
-    if (str.endsWith('s') && timeslot.duration.value < 1)
+    if (str.endsWith('s') && timeslot.duration.value <= 1)
       str = str.substr(0, str.length - 1);
     return str;
   };
@@ -160,6 +164,16 @@ app.controller('TournamentController', function ($scope, $rootScope, service, to
       return true;
     return $.inArray($scope.event.localizations[venueIdx],
       $scope.event.playersInLocalizations[$scope.event.players[playerIdx]]) != -1;
+  };
+
+  $scope.isMatchupModeRelevant = function () {
+    return $scope.event.playersPerMatch > 1 && $scope.event.matchesPerPlayer > 1;
+  };
+
+  $scope.getMatchupMode = function () {
+    if (!$scope.event)
+      return "";
+    return $scope.event.matchupMode.replace("_", " ");
   };
 
   /* ATECIÓN ESTÁ ESTO DE FORMA TEMPORAL PARA VER COMO QUEDA LA PAGINA DE EVENTO.

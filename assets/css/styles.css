@@ -10,6 +10,16 @@ a {
   font-size: 18px;
 }
 
+.counter.matchup-mode {
+  font-size: 14px;
+}
+
+.counter.matchup-mode .value {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+}
+
 .header {
   font-family: 'Montserrat', sans-serif;
 }
@@ -237,4 +247,45 @@ a {
 .legend .item .description {
   position: absolute;
   margin-left: 5px;
+}
+
+#matchups .matchups-wrapper {
+  margin-top: 25px;
+}
+
+#matchups .matchup .subtitle,
+#matchups .matchup .comment {
+  text-transform: uppercase;
+}
+
+#matchups .matchup .subtitle {
+  font-size: 20px;
+}
+
+#matchups .matchup .comment {
+  font-size: 12px;
+}
+
+#matchups .matchup .title-wrapper {
+  color: #fff;
+  padding: 15px 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+#matchups .matchup .title-wrapper .title {
+  margin-bottom: 0;
+}
+
+#matchups .matchups-wrapper .content {
+  margin: 0 0 35px 0;
+  padding-top: 10px;
+}
+
+#matchups .matchups-wrapper .content .occurrences-wrapper {
+  background-color: #dadce8;
+  padding: 10px 0;
+}
+
+#matchups .matchups-wrapper .content .occurrences-wrapper .occurrences {
+  font-size: 13px;
 }

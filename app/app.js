@@ -263,7 +263,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       return;
     $scope.tournament.timeslots.push($scope.timeslot);
     $scope.timeslot = null;
-  }
+  };
 });
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -273,7 +273,7 @@ app.config(['$routeProvider', function ($routeProvider) {
       controller: 'TournamentListController'
     })
     .when('/create', {
-      templateUrl: 'partials/form.html',
+      templateUrl: 'partials/form/form.html',
       controller: 'TournamentCreateController'
     })
     .when('/:id', {

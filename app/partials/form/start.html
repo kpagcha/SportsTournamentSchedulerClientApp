@@ -1,15 +1,44 @@
 <div ng-show="withStart">
   <select class="select" ng-options="type.name for type in startTypes.available track by type.value"
-          ng-model="startTypes.selected"
-          material-select watch></select>
+          ng-model="startTypes.selected" material-select watch></select>
 
-  <div input-field ng-show="startTypes.selected.value == 'LocalDate' || startTypes.selected.value == 'LocalDateTime'">
-    <input id="date" type="text" input-date ng-model="form.date">
-    <label for="date">Date</label>
+  <div class="row" ng-show="startTypes.selected.value == 'LocalDate' || startTypes.selected.value == 'LocalDateTime'">
+    <div class="col s12" input-field>
+      <input id="date" type="text" input-date ng-model="form.date">
+      <label for="date">Date</label>
+    </div>
   </div>
 
-  <div input-field ng-show="startTypes.selected.value == 'LocalTime' || startTypes.selected.value == 'LocalDateTime'">
-    <input id="time" type="text"input-clock data-twelvehour="false" ng-model="form.time" >
-    <label for="time">Time</label>
+  <div class="row" ng-show="startTypes.selected.value == 'LocalTime' || startTypes.selected.value == 'LocalDateTime'">
+    <div input-field class="col s12">
+      <input id="time" type="text" input-clock data-twelvehour="false" ng-model="form.time">
+      <label for="time">Time</label>
+    </div>
+  </div>
+
+  <div input-field ng-show="startTypes.selected.value == 'DayOfWeek'">
+    <select ng-options="dayOfWeek.name for dayOfWeek in daysOfWeek.available track by dayOfWeek.value"
+            ng-model="daysOfWeek.selected" material-select watch></select>
+  </div>
+
+  <div class="row" ng-show="startTypes.selected.value == 'Year' || startTypes.selected.value == 'YearMonth'">
+    <div input-field class="col s12">
+      <input type="number" id="year" ng-model="form.year" autocomplete="off" min="1" max="31">
+      <label class="active" for="year">Year</label>
+    </div>
+  </div>
+
+  <div input-field
+       ng-show="startTypes.selected.value == 'MonthDay' || startTypes.selected.value == 'Month'
+       || startTypes.selected.value == 'YearMonth'">
+    <select ng-options="month.name for month in months.available track by month.value"
+            ng-model="months.selected" material-select watch></select>
+  </div>
+
+  <div class="row" ng-show="startTypes.selected.value == 'MonthDay'">
+    <div input-field class="col s12">
+      <input type="number" id="day" ng-model="form.day" autocomplete="off" min="1" max="31">
+      <label class="active" for="day">Day</label>
+    </div>
   </div>
 </div>

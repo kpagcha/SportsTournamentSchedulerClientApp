@@ -211,10 +211,10 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       { value: 'LocalTime', name: 'Time' },
       { value: 'LocalDate', name: 'Date' },
       { value: 'LocalDateTime', name: 'Date and time' },
-      { value: 'DayOfWeek', name: 'Day of week' },
-      { value: 'MonthDay', name: 'Day of month' },
+      { value: 'DayOfWeek', name: 'Day of the week' },
+      { value: 'MonthDay', name: 'Month and day' },
       { value: 'Month', name: 'Month' },
-      { value: 'YearMonth', name: 'Month and year' },
+      { value: 'YearMonth', name: 'Year and month' },
       { value: 'Year', name: 'Year' }
     ],
     selected: { value: 'LocalTime', name: 'Time' }
@@ -232,6 +232,40 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     selected: { value: 'hours', name: 'Hours' }
   };
   $scope.form = {};
+  $scope.form.date = new Date();
+  $scope.daysOfWeek = {
+    available: [
+      { value: 1, name: 'Monday' },
+      { value: 2, name: 'Tuesday' },
+      { value: 3, name: 'Wednesday' },
+      { value: 4, name: 'Thursday' },
+      { value: 5, name: 'Friday' },
+      { value: 6, name: 'Saturday' },
+      { value: 7, name: 'Sunday' }
+    ],
+    selected: [
+      { value: 1, name: 'Monday' }
+    ]
+  };
+  $scope.months = {
+    available: [
+      { value: 1, name: 'January' },
+      { value: 2, name: 'February' },
+      { value: 3, name: 'March' },
+      { value: 4, name: 'April' },
+      { value: 5, name: 'May' },
+      { value: 6, name: 'June' },
+      { value: 7, name: 'July' },
+      { value: 8, name: 'August' },
+      { value: 9, name: 'September' },
+      { value: 10, name: 'October' },
+      { value: 11, name: 'November' },
+      { value: 12, name: 'December' }
+    ],
+    selected: [
+      { value: 1, name: 'January' }
+    ]
+  };
 
   $scope.addPlayer = function () {
     if (!$scope.player)
@@ -265,7 +299,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     if (!$scope.timeslot)
       return;
 
-    if ($scope.withStart) {
+    if ($scope.withStart && $scope.startType) {
 
     }
 

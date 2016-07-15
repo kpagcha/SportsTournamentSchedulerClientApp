@@ -1,4 +1,4 @@
-var app = angular.module('tournamentSchedulerApp', ['ngRoute']);
+var app = angular.module('tournamentSchedulerApp', ['ngRoute', 'ui.materialize']);
 
 app.factory('service', ['$http', function ($http) {
   var servicePath = 'http://localhost:8080/eventscheduler/';
@@ -128,35 +128,7 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
   };
 
   $scope.getTimeslotDisplay = function (index, includeChronologicalOrder) {
-    var t = allTimeslots[index];
-    var start = t.start;
-
-    var str = "Timeslot " + t.chronologicalOrder;
-    if (!start)
-      return str;
-
-    switch (t.start.type) {
-      case "DayOfWeek":
-      case "Month":
-      case "Year":
-      case "LocalTime":
-        str = t.start.value;
-        break;
-      case "MonthDay":
-        str = moment().month(t.start.value.month - 1).date(t.start.value.dayOfMonth).format("MMM Do");
-        break;
-      case "LocalDate":
-        str = moment(timeslot.start.value).format("MMM Do YYYY");
-        break;
-      case "LocalDateTime":
-        str = moment(timeslot.start.value).format("MMM Do YYYY, HH:mm");
-        break;
-    }
-
-    if (includeChronologicalOrder)
-      str += " (" + t.chronologicalOrder + ")";
-
-    return  str;
+    return readableTimeslot(allTimeslots[index], includeChronologicalOrder);
   };
 
   $scope.getDurationDisplay = function (timeslot) {
@@ -218,9 +190,8 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
 
 app.controller('TournamentCreateController', function ($scope, $rootScope, service) {
   $rootScope.tournament = null;
-  //$('body').addClass('yellow lighten-5');
 
-  $('select').material_select();
+ // $('select').material_select();
 
   $scope.tournament = {};
 
@@ -233,6 +204,34 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
 
   $scope.timeslot = {};
   $scope.timeslot.chronologicalOrder = 1;
+  $scope.withStart = false;
+  $scope.withDuration = false;
+  $scope.startTypes = {
+    available: [
+      { value: 'LocalTime', name: 'Time' },
+      { value: 'LocalDate', name: 'Date' },
+      { value: 'LocalDateTime', name: 'Date and time' },
+      { value: 'DayOfWeek', name: 'Day of week' },
+      { value: 'MonthDay', name: 'Day of month' },
+      { value: 'Month', name: 'Month' },
+      { value: 'YearMonth', name: 'Month and year' },
+      { value: 'Year', name: 'Year' }
+    ],
+    selected: { value: 'LocalTime', name: 'Time' }
+  };
+  $scope.durationTypes = {
+    available: [
+      { value: 'milliseconds', name: 'Milliseconds' },
+      { value: 'seconds', name: 'Seconds' },
+      { value: 'minutes', name: 'Minutes' },
+      { value: 'hours', name: 'Hours' },
+      { value: 'days', name: 'Days' },
+      { value: 'months', name: 'Months' },
+      { value: 'years', name: 'Years' }
+    ],
+    selected: { value: 'hours', name: 'Hours' }
+  };
+  $scope.form = {};
 
   $scope.addPlayer = function () {
     if (!$scope.player)
@@ -250,20 +249,43 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     if (!$scope.venue)
       return;
     $scope.tournament.venues.push($scope.venue);
-    $scope.venue = null;
+    $scope.vensue = null;
   };
 
   $scope.deleteVenue = function (index) {
     if (index > -1)
       $scope.tournament.venues.splice(index, 1);
   };
+
+  $scope.getTimeslotDisplay = function (timeslot) {
+    return readableTimeslot(timeslot, true);
+  };
   
   $scope.addTimeslot = function () {
     if (!$scope.timeslot)
       return;
+
+    if ($scope.withStart) {
+
+    }
+
+    if ($scope.withDuration && $scope.durationType && $scope.durationValue) {
+      $scope.timeslot.duration = {
+        type: $scope.durationType,
+        value: $scope.durationValue
+      }
+    }
+
     $scope.tournament.timeslots.push($scope.timeslot);
-    $scope.timeslot = null;
+    console.log($scope.timeslot);
+
+    $scope.timeslot = { chronologicalOrder: $scope.timeslot.chronologicalOrder + 1 };
   };
+
+  $scope.deleteTimeslot = function (index) {
+    if (index > -1)
+      $scope.tournament.timeslots.splice(index, 1);
+  }
 });
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -303,3 +325,34 @@ app.run(function ($rootScope) {
     }
   };
 });
+
+function readableTimeslot(t, includeChronologicalOrder) {
+  var start = t.start;
+
+  var str = "Timeslot " + t.chronologicalOrder;
+  if (!start)
+    return str;
+
+  switch (t.start.type) {
+    case "DayOfWeek":
+    case "Month":
+    case "Year":
+    case "LocalTime":
+      str = t.start.value;
+      break;
+    case "MonthDay":
+      str = moment().month(t.start.value.month - 1).date(t.start.value.dayOfMonth).format("MMM Do");
+      break;
+    case "LocalDate":
+      str = moment(timeslot.start.value).format("MMM Do YYYY");
+      break;
+    case "LocalDateTime":
+      str = moment(timeslot.start.value).format("MMM Do YYYY, HH:mm");
+      break;
+  }
+
+  if (includeChronologicalOrder)
+    str += " (" + t.chronologicalOrder + ")";
+
+  return  str;
+}

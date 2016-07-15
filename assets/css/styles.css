@@ -336,4 +336,10 @@ form .domain {
 
 .button-container {
   margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.select {
+  margin-top: 15px;
+  margin-bottom: 35px;
 }

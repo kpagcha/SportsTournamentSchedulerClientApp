@@ -1,44 +1,11 @@
-<input type="checkbox" id="with-duration" ng-model="withDuration">
-<label for="with-duration">With duration</label>
 <div ng-show="withDuration">
-  <div class="row" style="padding-top: 15px">
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="hours" id="hours">
-      <label for="hours">Hours</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="minutes" id="minutes">
-      <label for="minutes">Minutes</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="seconds" id="seconds">
-      <label for="seconds">Seconds</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="days" id="days">
-      <label for="days">Days</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="weeks" id="weeks">
-      <label for="weeks">Weeks</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="months" id="months">
-      <label for="months">Months</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="years" id="years">
-      <label for="years">Years</label>
-    </div>
-    <div class="col m4 s6">
-      <input type="radio" ng-model="startType" value="milliseconds" id="milliseconds">
-      <label for="milliseconds">Milliseconds</label>
-    </div>
+  <div input-field>
+    <select ng-options="type.name for type in durationTypes.available track by type.value"
+            ng-model="durationTypes.selected"
+            material-select watch></select>
   </div>
-  <div class="row" style="padding-top: 10px">
-    <div class="col s12 input-field">
-      <input type="number" id="duration-value" ng-model="durationValue" autocomplete="off" min="1">
-      <label class="active" for="duration-value">Duration</label>
-    </div>
+  <div input-field>
+    <input type="number" id="duration-value" ng-model="durationValue" autocomplete="off" min="1">
+    <label class="active" for="duration-value">Duration</label>
   </div>
 </div>

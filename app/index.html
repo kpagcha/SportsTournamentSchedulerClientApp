@@ -9,17 +9,21 @@
   <link href='http://fonts.googleapis.com/css?family=Brawler' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="../assets/css/material-icons.css">
   <link rel="stylesheet" href="../assets/css/materialize.css">
+  <link rel="stylesheet" href="../assets/css/materialize.clockpicker.css">
   <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <script src="../assets/js/jquery-2.1.1.js"></script>
 
   <script src="angular/angular.js"></script>
   <script src="angular/angular-resource.js"></script>
   <script src="angular/angular-route.js"></script>
   <script src="app.js"></script>
 
-  <script src="../assets/js/jquery-2.1.1.js"></script>
-  <script src="../assets/js/materialize.js"></script>
-  <script src="../assets/js/init.js"></script>
   <script src="../assets/js/moment.js"></script>
+  <script src="../assets/js/materialize.js"></script>
+  <script src="../assets/js/angular-materialize.min.js"></script>
+  <script src="../assets/js/materialize.clockpicker.js"></script>
+  <script src="../assets/js/init.js"></script>
 </head>
 
 <body>
@@ -70,18 +74,6 @@
 </nav>
 
 <div id="main" ng-view=""></div>
-
-<select id="start-type" ng-model="startType">
-  <option value="'day-of-week'">Day of the week</option>
-  <option value="month">Month</option>
-  <option value="month-day">Day and month</option>
-  <option value="year">Year</option>
-  <option value="year-month">Month and year</option>
-  <option value="local-time" selected>Time</option>
-  <option value="local-date">Date</option>
-  <option value="local-date-time">Date and time</option>
-</select>
-<label for="start-type">Start type</label>
 
 </body>
 </html>

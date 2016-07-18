@@ -50,7 +50,7 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
 
   var scrollTo = function (selector) {
     var offset = $(selector).offset().top + 1;
-    $('html, body').animate({ scrollTop: offset }, {duration: 400, queue: false, easing: 'easeOutCubic'});
+    $('html, body').animate({scrollTop: offset}, {duration: 400, queue: false, easing: 'easeOutCubic'});
   };
 
   $('#teams-link').click(function (e) {
@@ -151,28 +151,28 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
     if (!$scope.event || !$scope.event.unavailablePlayers)
       return false;
     return $.inArray($scope.event.timeslots[timeslotIdx],
-      $scope.event.unavailablePlayers[$scope.event.players[playerIdx]]) != -1;
+        $scope.event.unavailablePlayers[$scope.event.players[playerIdx]]) != -1;
   };
 
   $scope.isVenueUnavailable = function (venueIdx, timeslotIdx) {
     if (!$scope.event || !$scope.event.unavailableLocalizations)
       return false;
     return $.inArray($scope.event.timeslots[timeslotIdx],
-      $scope.event.unavailableLocalizations[$scope.event.localizations[venueIdx]]) != -1;
+        $scope.event.unavailableLocalizations[$scope.event.localizations[venueIdx]]) != -1;
   };
 
   $scope.isTimeslotAssigned = function (playerIdx, timeslotIdx) {
     if (!$scope.event || !$scope.event.playersAtTimeslots)
       return false;
     return $.inArray($scope.event.timeslots[timeslotIdx],
-      $scope.event.playersAtTimeslots[$scope.event.players[playerIdx]]) != -1;
+        $scope.event.playersAtTimeslots[$scope.event.players[playerIdx]]) != -1;
   };
 
   $scope.isVenueAssigned = function (playerIdx, venueIdx) {
     if (!$scope.event || !$scope.event.playersInLocalizations)
       return true;
     return $.inArray($scope.event.localizations[venueIdx],
-      $scope.event.playersInLocalizations[$scope.event.players[playerIdx]]) != -1;
+        $scope.event.playersInLocalizations[$scope.event.players[playerIdx]]) != -1;
   };
 
   $scope.isMatchupModeRelevant = function () {
@@ -191,16 +191,12 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
 app.controller('TournamentCreateController', function ($scope, $rootScope, service) {
   $rootScope.tournament = null;
 
- // $('select').material_select();
+  // $('select').material_select();
 
   $scope.tournament = {};
-
   $scope.tournament.players = [];
   $scope.tournament.venues = [];
   $scope.tournament.timeslots = [];
-  $scope.tournament.playersPerMatch = 2;
-  $scope.tournament.matchesPerPlayer = 1;
-  $scope.tournament.timeslotsPerMatch = 2;
 
   $scope.timeslot = {};
   $scope.timeslot.chronologicalOrder = 1;
@@ -214,64 +210,64 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
   };
   $scope.startTypes = {
     available: [
-      { value: 'LocalTime', name: 'Time' },
-      { value: 'LocalDate', name: 'Date' },
-      { value: 'LocalDateTime', name: 'Date and time' },
-      { value: 'DayOfWeek', name: 'Day of the week' },
-      { value: 'MonthDay', name: 'Month and day' },
-      { value: 'Month', name: 'Month' },
-      { value: 'YearMonth', name: 'Year and month' },
-      { value: 'Year', name: 'Year' }
+      {value: 'LocalTime', name: 'Time'},
+      {value: 'LocalDate', name: 'Date'},
+      {value: 'LocalDateTime', name: 'Date and time'},
+      {value: 'DayOfWeek', name: 'Day of the week'},
+      {value: 'MonthDay', name: 'Month and day'},
+      {value: 'Month', name: 'Month'},
+      {value: 'YearMonth', name: 'Year and month'},
+      {value: 'Year', name: 'Year'}
     ],
-    selected: { value: 'LocalTime', name: 'Time' }
+    selected: {value: 'LocalTime', name: 'Time'}
   };
   $scope.durationTypes = {
     available: [
-      { value: 'milliseconds', name: 'Milliseconds' },
-      { value: 'seconds', name: 'Seconds' },
-      { value: 'minutes', name: 'Minutes' },
-      { value: 'hours', name: 'Hours' },
-      { value: 'days', name: 'Days' },
-      { value: 'weeks', name: 'Weeks' },
-      { value: 'months', name: 'Months' },
-      { value: 'years', name: 'Years' }
+      {value: 'milliseconds', name: 'Milliseconds'},
+      {value: 'seconds', name: 'Seconds'},
+      {value: 'minutes', name: 'Minutes'},
+      {value: 'hours', name: 'Hours'},
+      {value: 'days', name: 'Days'},
+      {value: 'weeks', name: 'Weeks'},
+      {value: 'months', name: 'Months'},
+      {value: 'years', name: 'Years'}
     ],
-    selected: { value: 'hours', name: 'Hours' }
+    selected: {value: 'hours', name: 'Hours'}
   };
   $scope.daysOfWeek = {
     available: [
-      { value: 1, name: 'Monday' },
-      { value: 2, name: 'Tuesday' },
-      { value: 3, name: 'Wednesday' },
-      { value: 4, name: 'Thursday' },
-      { value: 5, name: 'Friday' },
-      { value: 6, name: 'Saturday' },
-      { value: 7, name: 'Sunday' }
+      {value: 1, name: 'Monday'},
+      {value: 2, name: 'Tuesday'},
+      {value: 3, name: 'Wednesday'},
+      {value: 4, name: 'Thursday'},
+      {value: 5, name: 'Friday'},
+      {value: 6, name: 'Saturday'},
+      {value: 7, name: 'Sunday'}
     ],
-    selected: { value: 1, name: 'Monday' }
+    selected: {value: 1, name: 'Monday'}
   };
   $scope.months = {
     available: [
-      { value: 1, name: 'January' },
-      { value: 2, name: 'February' },
-      { value: 3, name: 'March' },
-      { value: 4, name: 'April' },
-      { value: 5, name: 'May' },
-      { value: 6, name: 'June' },
-      { value: 7, name: 'July' },
-      { value: 8, name: 'August' },
-      { value: 9, name: 'September' },
-      { value: 10, name: 'October' },
-      { value: 11, name: 'November' },
-      { value: 12, name: 'December' }
+      {value: 1, name: 'January'},
+      {value: 2, name: 'February'},
+      {value: 3, name: 'March'},
+      {value: 4, name: 'April'},
+      {value: 5, name: 'May'},
+      {value: 6, name: 'June'},
+      {value: 7, name: 'July'},
+      {value: 8, name: 'August'},
+      {value: 9, name: 'September'},
+      {value: 10, name: 'October'},
+      {value: 11, name: 'November'},
+      {value: 12, name: 'December'}
     ],
-    selected: { value: 1, name: 'January' }
+    selected: {value: 1, name: 'January'}
   };
 
   $scope.addPlayer = function () {
     if (!$scope.player)
       return;
-    $scope.tournament.players.push($scope.player);
+    $scope.tournament.players.push({name: $scope.player});
     $scope.player = null;
   };
 
@@ -283,7 +279,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
   $scope.addVenue = function () {
     if (!$scope.venue)
       return;
-    $scope.tournament.venues.push($scope.venue);
+    $scope.tournament.venues.push({name: $scope.venue});
     $scope.vensue = null;
   };
 
@@ -295,7 +291,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
   $scope.getTimeslotDisplay = function (timeslot) {
     return readableTimeslot(timeslot, true);
   };
-  
+
   $scope.addTimeslot = function () {
     if (!$scope.timeslot)
       return;
@@ -351,15 +347,230 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
 
     $scope.tournament.timeslots.push($scope.timeslot);
 
-    if ($scope.form.autoIncrement)
-      $scope.timeslot.chronologicalOrder++;
-    $scope.timeslot = {chronologicalOrder: $scope.timeslot.chronologicalOrder};
+    var order = $scope.timeslot.chronologicalOrder;
+    $scope.timeslot = {
+      chronologicalOrder: $scope.form.autoIncrement ? order + 1 : order
+    };
   };
 
   $scope.deleteTimeslot = function (index) {
     if (index > -1)
       $scope.tournament.timeslots.splice(index, 1);
-  }
+  };
+
+
+  $scope.form.tournamentConfirmed = false;
+
+  $scope.confirmTournament = function () {
+    $scope.form.tournamentConfirmed = true;
+  };
+
+  var demoClicked = false;
+  $scope.demoTournament = function () {
+    if (!demoClicked) {
+      demoClicked = true;
+      $scope.tournament = {
+        name: 'Demo Tournament',
+        players: [
+          {name: 'Player 1'},
+          {name: 'Player 2'},
+          {name: 'Player 3'},
+          {name: 'Player 4'},
+          {name: 'Player 5'},
+          {name: 'Player 6'},
+          {name: 'Player 7'},
+          {name: 'Player 8'},
+          {name: 'Player 9'},
+          {name: 'Player 10'},
+          {name: 'Player 11'},
+          {name: 'Player 12'},
+          {name: 'Player 13'},
+          {name: 'Player 14'},
+          {name: 'Player 15'},
+          {name: 'Player 16'}
+        ],
+        venues: [
+          {name: 'Centre Court'},
+          {name: 'Court 2'},
+          {name: 'Court 6'},
+          {name: 'Court 7'}
+        ],
+        timeslots: [
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '10:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '11:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '12:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '13:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '14:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '15:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '16:00'
+            }
+          },
+          {
+            chronologicalOrder: 1,
+            start: {
+              type: 'LocalTime',
+              value: '17:00'
+            }
+          }
+        ]
+      }
+
+      var i;
+      for (i = 0; i < $scope.tournament.players.length; i++) $scope.event.players.push(i);
+      for (i = 0; i < $scope.tournament.venues.length; i++) $scope.event.venues.push(i);
+      for (i = 0; i < $scope.tournament.timeslots.length; i++) $scope.event.timeslots.push(i);
+    }
+    else if (!$scope.form.tournamentConfirmed)
+      $scope.form.tournamentConfirmed = true;
+  };
+
+  $scope.event = {
+    playersPerMatch: 2,
+    matchesPerPlayer: 1,
+    timeslotsPerMatch: 2,
+    players: [],
+    venues: [],
+    timeslots: [],
+    breaks: []
+  };
+
+  $scope.formEvt = {
+    domainConfirmed: false,
+    hasTeams: false
+  };
+
+  $scope.toggle = function (val, arr) {
+    var index = arr.indexOf(val);
+    if (index == -1)
+      arr.push(val);
+    else
+      arr.splice(index, 1);
+  };
+
+  $scope.confirmEventDomains = function () {
+    $scope.formEvt.domainConfirmed = true;
+
+    $scope.event.players.sort(function (i, j) { return i - j; });
+    $scope.event.venues.sort(function (i, j) { return i - j; });
+    $scope.event.timeslots.sort(function (i, j) { return i - j; });
+
+    $scope.formEvt.players = [];
+    $scope.formEvt.venues = [];
+    $scope.formEvt.timeslots = [];
+    $scope.event.players.forEach(function (i) {
+      var player = $scope.tournament.players[i];
+      player.val = i;
+      $scope.formEvt.players.push(player);
+    });
+    $scope.event.venues.forEach(function (i) {
+      var venue = $scope.tournament.venues[i];
+      venue.val = i;
+      $scope.formEvt.venues.push(venue);
+    });
+    $scope.event.timeslots.forEach(function (i) {
+      var timeslot = $scope.tournament.timeslots[i];
+      timeslot.val = i;
+      $scope.formEvt.timeslots.push(timeslot);
+    });
+
+    $scope.formEvt.teams = {
+      unassignedPlayers: angular.copy($scope.formEvt.players),
+      selectedPlayers: []
+    };
+  };
+
+  $scope.toggleTeams = function () {
+    $scope.event.playersPerTeam = $scope.formEvt.hasTeams ? 2 : undefined;
+  };
+
+  $scope.addTeam = function () {
+    if ($scope.formEvt.teams.selectedPlayers.length != $scope.event.playersPerTeam)
+      return;
+
+    if (!$scope.event.teams)
+      $scope.event.teams = [];
+
+    $scope.event.teams.push({ players: $scope.formEvt.teams.selectedPlayers });
+
+    $scope.formEvt.teams.selectedPlayers.forEach(function (selected) {
+      var index;
+      $scope.formEvt.teams.unassignedPlayers.forEach(function (player, i) {
+        if (player.val == selected)
+          index = i;
+      });
+      if (index !== undefined)
+        $scope.formEvt.teams.unassignedPlayers.splice(index, 1);
+    });
+    $scope.formEvt.teams.selectedPlayers = []
+  };
+
+  $scope.deleteTeam = function (teamIndex) {
+    if (teamIndex > - 1) {
+      var team = $scope.event.teams[teamIndex];
+      team.players.forEach(function (playerIndex) {
+        var player = {
+          val: playerIndex,
+          name: $scope.tournament.players[playerIndex].name
+        };
+        $scope.formEvt.teams.unassignedPlayers.push(player);
+      });
+
+      $scope.formEvt.teams.unassignedPlayers.sort(function (a, b) {
+        return a.val - b.val;
+      });
+
+      $scope.event.teams.splice(teamIndex, 1);
+    }
+  };
+
+  $scope.getTeamDisplay = function (team) {
+    var str = "";
+    team.players.forEach(function (index) {
+      var player = $scope.tournament.players[index];
+      str += player.name + "-";
+    });
+    return str.substr(0, str.length - 1);
+  };
 });
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -441,5 +652,5 @@ function readableTimeslot(t, includeChronologicalOrder) {
   if (includeChronologicalOrder)
     str += " (" + t.chronologicalOrder + ")";
 
-  return  str;
+  return str;
 }

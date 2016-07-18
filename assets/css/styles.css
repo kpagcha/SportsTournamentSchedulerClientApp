@@ -306,13 +306,13 @@ a {
 }
 
 @media (max-width: 1200px) {
-  .container {
+  .form-container {
     width: 70%;
   }
 }
 
 @media (max-width: 993px) {
-  .container {
+  .form-container {
     width: 85%;
   }
 }
@@ -341,4 +341,33 @@ form .domain {
 
 .select {
   margin-top: 15px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+  border-bottom: 2px solid #bdbdbd;
+  padding-bottom: 15px;
+}
+
+.section {
+  margin-bottom: 15px;
+}
+
+.form-container .tabs {
+  background: transparent;
+  margin-bottom: 35px;
+}
+
+.summary-container .item {
+  padding: 10px;
+}
+
+.summary-container .items-container {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+}
+
+.summary-container .section .header {
+  font-size: 1.20rem;
 }

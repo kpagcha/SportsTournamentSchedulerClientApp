@@ -204,8 +204,14 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
 
   $scope.timeslot = {};
   $scope.timeslot.chronologicalOrder = 1;
-  $scope.withStart = false;
-  $scope.withDuration = false;
+
+  $scope.form = {
+    date: moment().format("DD MMM, YYYY"),
+    withStart: false,
+    withDuration: false,
+    durationValue: 1,
+    autoIncrement: true
+  };
   $scope.startTypes = {
     available: [
       { value: 'LocalTime', name: 'Time' },
@@ -226,13 +232,12 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       { value: 'minutes', name: 'Minutes' },
       { value: 'hours', name: 'Hours' },
       { value: 'days', name: 'Days' },
+      { value: 'weeks', name: 'Weeks' },
       { value: 'months', name: 'Months' },
       { value: 'years', name: 'Years' }
     ],
     selected: { value: 'hours', name: 'Hours' }
   };
-  $scope.form = {};
-  $scope.form.date = new Date();
   $scope.daysOfWeek = {
     available: [
       { value: 1, name: 'Monday' },
@@ -243,9 +248,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       { value: 6, name: 'Saturday' },
       { value: 7, name: 'Sunday' }
     ],
-    selected: [
-      { value: 1, name: 'Monday' }
-    ]
+    selected: { value: 1, name: 'Monday' }
   };
   $scope.months = {
     available: [
@@ -262,9 +265,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       { value: 11, name: 'November' },
       { value: 12, name: 'December' }
     ],
-    selected: [
-      { value: 1, name: 'January' }
-    ]
+    selected: { value: 1, name: 'January' }
   };
 
   $scope.addPlayer = function () {
@@ -299,21 +300,60 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     if (!$scope.timeslot)
       return;
 
-    if ($scope.withStart && $scope.startType) {
+    if ($scope.form.withStart && $scope.startTypes.selected) {
+      $scope.timeslot.start = {
+        type: $scope.startTypes.selected.value
+      };
 
+      switch ($scope.startTypes.selected.value) {
+        case 'LocalTime':
+          $scope.timeslot.start.value = $scope.form.time;
+          break;
+        case 'LocalDate':
+          $scope.timeslot.start.value = moment($scope.form.date, "DD MMM, YYYY").format("YYYY-MM-DD");
+          break;
+        case 'LocalDateTime':
+          $scope.timeslot.start.value = {
+            date: moment($scope.form.date, "DD MMM, YYYY").format("YYYY-MM-DD"),
+            time: $scope.form.time
+          };
+          break;
+        case 'DayOfWeek':
+          $scope.timeslot.start.value = $scope.daysOfWeek.selected.value;
+          break;
+        case 'MonthDay':
+          $scope.timeslot.start.value = {
+            month: $scope.months.selected.value,
+            dayOfMonth: $scope.form.day
+          };
+          break;
+        case 'Month':
+          $scope.timeslot.start.value = $scope.months.selected.value;
+          break;
+        case 'YearMonth':
+          $scope.timeslot.start.value = {
+            year: $scope.form.year,
+            month: $scope.months.selected.value
+          };
+          break;
+        case 'Year':
+          $scope.timeslot.start.value = $scope.form.year;
+          break;
+      }
     }
 
-    if ($scope.withDuration && $scope.durationType && $scope.durationValue) {
+    if ($scope.form.withDuration && $scope.durationTypes.selected && $scope.form.durationValue) {
       $scope.timeslot.duration = {
-        type: $scope.durationType,
-        value: $scope.durationValue
+        type: $scope.durationTypes.selected.value,
+        value: $scope.form.durationValue
       }
     }
 
     $scope.tournament.timeslots.push($scope.timeslot);
-    console.log($scope.timeslot);
 
-    $scope.timeslot = { chronologicalOrder: $scope.timeslot.chronologicalOrder + 1 };
+    if ($scope.form.autoIncrement)
+      $scope.timeslot.chronologicalOrder++;
+    $scope.timeslot = {chronologicalOrder: $scope.timeslot.chronologicalOrder};
   };
 
   $scope.deleteTimeslot = function (index) {
@@ -369,8 +409,17 @@ function readableTimeslot(t, includeChronologicalOrder) {
 
   switch (t.start.type) {
     case "DayOfWeek":
+      str = moment().day(t.start.value).format("dddd");
+      break;
     case "Month":
+      str = moment().month(t.start.value - 1).format("MMMM");
+      break;
     case "Year":
+      str = moment().year(t.start.value).format("YYYY");
+      break;
+    case "YearMonth":
+      str = moment().year(t.start.value.year).month(t.start.value.month - 1).format("MMM YYYY");
+      break;
     case "LocalTime":
       str = t.start.value;
       break;
@@ -378,10 +427,14 @@ function readableTimeslot(t, includeChronologicalOrder) {
       str = moment().month(t.start.value.month - 1).date(t.start.value.dayOfMonth).format("MMM Do");
       break;
     case "LocalDate":
-      str = moment(timeslot.start.value).format("MMM Do YYYY");
+      str = moment(t.start.value).format("MMM Do YYYY");
       break;
     case "LocalDateTime":
-      str = moment(timeslot.start.value).format("MMM Do YYYY, HH:mm");
+      var time = moment(t.start.value.time, "hh:mm");
+      var date = moment(t.start.value.date, "YYYY-MM-DD");
+      var timeStr = time.format("hh:mm");
+      var dateStr = date.format("YYYY-MM-DD");
+      str = moment(timeStr + " " + dateStr, "hh:mm YYYY-MM-DD").format("MMM Do YYYY, HH:mm");
       break;
   }
 

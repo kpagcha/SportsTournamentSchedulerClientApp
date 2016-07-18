@@ -1,4 +1,4 @@
-<div ng-show="withDuration">
+<div ng-show="form.withDuration">
   <div input-field>
     <select ng-options="type.name for type in durationTypes.available track by type.value"
             ng-model="durationTypes.selected"
@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div input-field class="col s12">
-      <input type="number" id="duration-value" ng-model="durationValue" autocomplete="off" min="1">
+      <input type="number" id="duration-value" ng-model="form.durationValue" autocomplete="off" min="1">
       <label class="active" for="duration-value">Duration</label>
     </div>
   </div>

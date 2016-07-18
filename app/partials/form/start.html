@@ -1,4 +1,4 @@
-<div ng-show="withStart">
+<div ng-show="form.withStart">
   <select class="select" ng-options="type.name for type in startTypes.available track by type.value"
           ng-model="startTypes.selected" material-select watch></select>
 
@@ -23,7 +23,7 @@
 
   <div class="row" ng-show="startTypes.selected.value == 'Year' || startTypes.selected.value == 'YearMonth'">
     <div input-field class="col s12">
-      <input type="number" id="year" ng-model="form.year" autocomplete="off" min="1" max="31">
+      <input type="number" id="year" ng-model="form.year" autocomplete="off">
       <label class="active" for="year">Year</label>
     </div>
   </div>

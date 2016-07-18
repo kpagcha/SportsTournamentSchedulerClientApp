@@ -70,17 +70,21 @@
         <div class="col s12">
           <h6>Timeslots</h6>
         </div>
-        <div class="input-field col s12">
+        <div class="input-field col s12 m6">
           <input type="number" id="chronological-order" ng-model="timeslot.chronologicalOrder" autocomplete="off">
           <label class="active" for="chronological-order">Chronological order</label>
         </div>
+        <div class="input-field col s12 m6">
+          <input type="checkbox" id="auto-increment" ng-model="form.autoIncrement">
+          <label for="auto-increment">Auto increment order</label>
+        </div>
         <div class="input-field col s12">
-          <input type="checkbox" id="with-start" ng-model="withStart">
+          <input type="checkbox" id="with-start" ng-model="form.withStart">
           <label for="with-start">With start</label>
           <div ng-include="'partials/form/start.html'"></div>
         </div>
         <div class="input-field col s12">
-          <input type="checkbox" id="with-duration" ng-model="withDuration">
+          <input type="checkbox" id="with-duration" ng-model="form.withDuration">
           <label for="with-duration">With duration</label>
           <div ng-include="'partials/form/duration.html'"></div>
         </div>

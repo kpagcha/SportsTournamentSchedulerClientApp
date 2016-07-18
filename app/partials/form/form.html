@@ -250,17 +250,17 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="row section">
-            <div class="col s12">
-              <h6>Breaks</h6>
-            </div>
-            <div class="col s12">
-              <div class="input-field col s12 m4 l3" ng-repeat="timeslot in formEvt.timeslots">
-                <input type="checkbox" id="event-break-{{$index}}" value="{{timeslot.val}}"
-                       ng-click="toggle(timeslot.val, event.breaks)">
-                <label for="event-break-{{$index}}">{{getTimeslotDisplay(timeslot)}}</label>
-              </div>
+        <div class="row section">
+          <div class="col s12">
+            <h6>Breaks</h6>
+          </div>
+          <div class="col s12">
+            <div class="input-field col s12 m4 l3" ng-repeat="timeslot in formEvt.timeslots">
+              <input type="checkbox" id="event-break-{{$index}}" value="{{timeslot.val}}"
+                     ng-click="toggle(timeslot.val, event.breaks)">
+              <label for="event-break-{{$index}}">{{getTimeslotDisplay(timeslot)}}</label>
             </div>
           </div>
         </div>
@@ -300,6 +300,45 @@
             </div>
           </div>
         </div>
+
+        <div class="row section">
+          <div class="col s12">
+            <h6>Unavailable players at timeslots</h6>
+          </div>
+          <div class="input-field col s12">
+            <select ng-options="player.name for player in formEvt.players track by player.val"
+                    ng-model="formEvt.unavailablePlayers.selected" material-select watch></select>
+
+            <div class="input-field col s12 m4 l3" ng-repeat="timeslot in formEvt.timeslots">
+              <input type="checkbox" id="event-unavailable-player-{{$index}}" value="{{timeslot.val}}"
+                     ng-checked="formEvt.unavailablePlayers.values[formEvt.unavailablePlayers.selected.val]
+                       .indexOf(timeslot.val) != -1"
+                     ng-click="toggle(timeslot.val,
+                       formEvt.unavailablePlayers.values[formEvt.unavailablePlayers.selected.val])">
+              <label for="event-unavailable-player-{{$index}}">{{getTimeslotDisplay(timeslot)}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row section">
+          <div class="col s12">
+            <h6>Unavailable venues at timeslots</h6>
+          </div>
+          <div class="input-field col s12">
+            <select ng-options="venue.name for venue in formEvt.venues track by venue.val"
+                    ng-model="formEvt.unavailableVenues.selected" material-select watch></select>
+
+            <div class="input-field col s12 m4 l3" ng-repeat="timeslot in formEvt.timeslots">
+              <input type="checkbox" id="event-unavailable-venue-{{$index}}" value="{{timeslot.val}}"
+                     ng-checked="formEvt.unavailableVenues.values[formEvt.unavailableVenues.selected.val]
+                       .indexOf(timeslot.val) != -1"
+                     ng-click="toggle(timeslot.val,
+                       formEvt.unavailableVenues.values[formEvt.unavailableVenues.selected.val])">
+              <label for="event-unavailable-venue-{{$index}}">{{getTimeslotDisplay(timeslot)}}</label>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </form>

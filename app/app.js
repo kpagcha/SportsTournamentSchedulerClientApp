@@ -517,6 +517,21 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       unassignedPlayers: angular.copy($scope.formEvt.players),
       selectedPlayers: []
     };
+
+    $scope.formEvt.unavailablePlayers = {
+      selected: $scope.formEvt.players[0],
+      values: {}
+    };
+    $scope.formEvt.unavailableVenues = {
+      selected: $scope.formEvt.venues[0],
+      values: {}
+    };
+    $scope.event.players.forEach(function (playerIndex) {
+      $scope.formEvt.unavailablePlayers.values[playerIndex] = [];
+    });
+    $scope.event.venues.forEach(function (venueIndex) {
+      $scope.formEvt.unavailableVenues.values[venueIndex] = [];
+    })
   };
 
   $scope.toggleTeams = function () {

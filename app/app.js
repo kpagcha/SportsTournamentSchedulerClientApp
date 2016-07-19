@@ -526,8 +526,18 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       selected: $scope.formEvt.venues[0],
       values: {}
     };
+    $scope.formEvt.playersAtTimeslots = {
+      selected: $scope.formEvt.players[0],
+      values: {}
+    };
+    $scope.formEvt.playersInVenues = {
+      values: {}
+    };
+
     $scope.event.players.forEach(function (playerIndex) {
       $scope.formEvt.unavailablePlayers.values[playerIndex] = [];
+      $scope.formEvt.playersAtTimeslots.values[playerIndex] = [];
+      $scope.formEvt.playersInVenues.values[playerIndex] = [];
     });
     $scope.event.venues.forEach(function (venueIndex) {
       $scope.formEvt.unavailableVenues.values[venueIndex] = [];

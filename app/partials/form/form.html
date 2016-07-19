@@ -339,6 +339,42 @@
           </div>
         </div>
 
+        <div class="row section">
+          <div class="col s12">
+            <h6>Assign players to timeslots and venues</h6>
+          </div>
+          <div class="input-field col s12">
+            <select ng-options="player.name for player in formEvt.players track by player.val"
+                    ng-model="formEvt.playersAtTimeslots.selected" material-select watch></select>
+            <div class="row">
+              <div class="col s12">
+                <h6>Timeslots</h6>
+                <div class="input-field col s12 m4 l3" ng-repeat="timeslot in formEvt.timeslots">
+                  <input type="checkbox" id="event-assigned-timeslot-{{$index}}" value="{{timeslot.val}}"
+                         ng-checked="formEvt.playersAtTimeslots.values[formEvt.playersAtTimeslots.selected.val]
+                       .indexOf(timeslot.val) != -1"
+                         ng-click="toggle(timeslot.val,
+                       formEvt.playersAtTimeslots.values[formEvt.playersAtTimeslots.selected.val])">
+                  <label for="event-assigned-timeslot-{{$index}}">{{getTimeslotDisplay(timeslot)}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <h6>Venues</h6>
+                <div class="input-field col s12 m4 l3" ng-repeat="venue in formEvt.venues">
+                  <input type="checkbox" id="event-assigned-venue-{{$index}}" value="{{venue.val}}"
+                         ng-checked="formEvt.playersInVenues.values[formEvt.playersAtTimeslots.selected.val]
+                           .indexOf(venue.val) != -1"
+                         ng-click="toggle(venue.val,
+                           formEvt.playersInVenues.values[formEvt.playersAtTimeslots.selected.val])">
+                  <label for="event-assigned-venue-{{$index}}">{{venue.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </form>

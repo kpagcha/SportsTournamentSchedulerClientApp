@@ -353,6 +353,10 @@ form .domain {
   margin-bottom: 15px;
 }
 
+.margin-bottom {
+  margin-bottom: 30px;
+}
+
 .form-container .tabs {
   background: transparent;
   margin-bottom: 35px;
@@ -370,4 +374,9 @@ form .domain {
 
 .summary-container .section .header {
   font-size: 1.20rem;
+}
+
+.form-container .form-extra-container .header {
+  text-align: center;
+  margin-top: 25px;
 }

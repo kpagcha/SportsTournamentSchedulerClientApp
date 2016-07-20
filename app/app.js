@@ -360,6 +360,10 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
 
 
   $scope.form.tournamentConfirmed = false;
+  $scope.formEvt = {
+    domainConfirmed: false,
+    hasTeams: false
+  };
 
   $scope.confirmTournament = function () {
     $scope.form.tournamentConfirmed = true;
@@ -453,7 +457,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
             }
           }
         ]
-      }
+      };
 
       var i;
       for (i = 0; i < $scope.tournament.players.length; i++) $scope.event.players.push(i);
@@ -474,11 +478,6 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     breaks: []
   };
 
-  $scope.formEvt = {
-    domainConfirmed: false,
-    hasTeams: false
-  };
-
   $scope.toggle = function (val, arr) {
     var index = arr.indexOf(val);
     if (index == -1)
@@ -490,9 +489,15 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
   $scope.confirmEventDomains = function () {
     $scope.formEvt.domainConfirmed = true;
 
-    $scope.event.players.sort(function (i, j) { return i - j; });
-    $scope.event.venues.sort(function (i, j) { return i - j; });
-    $scope.event.timeslots.sort(function (i, j) { return i - j; });
+    $scope.event.players.sort(function (i, j) {
+      return i - j;
+    });
+    $scope.event.venues.sort(function (i, j) {
+      return i - j;
+    });
+    $scope.event.timeslots.sort(function (i, j) {
+      return i - j;
+    });
 
     $scope.formEvt.players = [];
     $scope.formEvt.venues = [];
@@ -533,6 +538,21 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     $scope.formEvt.playersInVenues = {
       values: {}
     };
+    $scope.formEvt.matchup = {
+      players: [],
+      venues: [],
+      timeslots: [],
+      occurrences: 1
+    };
+    $scope.formEvt.matchupModes = {
+      values: [
+        {name: 'All different', val: 'ALL_DIFFERENT'},
+        {name: 'All equal', val: 'ALL_EQUAL'},
+        {name: 'Any', val: 'ANY'},
+        {name: 'Custom', val: 'CUSTOM'}
+      ],
+      selected: {name: 'Any', val: 'ANY'}
+    };
 
     $scope.event.players.forEach(function (playerIndex) {
       $scope.formEvt.unavailablePlayers.values[playerIndex] = [];
@@ -555,7 +575,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     if (!$scope.event.teams)
       $scope.event.teams = [];
 
-    $scope.event.teams.push({ players: $scope.formEvt.teams.selectedPlayers });
+    $scope.event.teams.push({players: $scope.formEvt.teams.selectedPlayers});
 
     $scope.formEvt.teams.selectedPlayers.forEach(function (selected) {
       var index;
@@ -570,7 +590,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
   };
 
   $scope.deleteTeam = function (teamIndex) {
-    if (teamIndex > - 1) {
+    if (teamIndex > -1) {
       var team = $scope.event.teams[teamIndex];
       team.players.forEach(function (playerIndex) {
         var player = {
@@ -595,6 +615,127 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       str += player.name + "-";
     });
     return str.substr(0, str.length - 1);
+  };
+
+  $scope.addMatchup = function () {
+    if ($scope.formEvt.matchup.players.length != $scope.event.playersPerMatch)
+      return;
+
+    if (!$scope.event.predefinedMatchups)
+      $scope.event.predefinedMatchups = [];
+
+    $scope.event.predefinedMatchups.push($scope.formEvt.matchup);
+    $scope.formEvt.matchup = {
+      players: [],
+      venues: [],
+      timeslots: [],
+      occurrences: 1
+    };
+  };
+
+  $scope.deleteMatchup = function (matchupIndex) {
+    if (matchupIndex > -1)
+      $scope.event.predefinedMatchups.splice(matchupIndex, 1);
+  };
+
+  $scope.getPlayersDisplay = function (playersIndices) {
+    var displayablePlayers = [];
+    playersIndices.forEach(function (playerIndex) {
+      displayablePlayers.push($scope.tournament.players[playerIndex].name);
+    });
+    return displayablePlayers.join(', ');
+  };
+
+  $scope.getVenuesDisplay = function (venuesIndices) {
+    if (!venuesIndices.length)
+      return 'any';
+
+    var displayableVenues = [];
+    venuesIndices.forEach(function (venueIndex) {
+      displayableVenues.push($scope.tournament.venues[venueIndex].name);
+    });
+    return displayableVenues.join(', ');
+  };
+
+  $scope.getTimeslotsDisplay = function (timeslotsIndices) {
+    if (!timeslotsIndices.length)
+      return 'any';
+
+    var displayableTimeslots = [];
+    timeslotsIndices.forEach(function (timeslotIndex) {
+      displayableTimeslots.push($scope.getTimeslotDisplay($scope.tournament.timeslots[timeslotIndex]));
+    });
+    return displayableTimeslots.join(', ');
+  };
+
+  $scope.confirmEvent = function () {
+    if (!$scope.tournament.events)
+      $scope.tournament.events = [];
+
+    if (!$scope.event.breaks.length)
+      delete $scope.event.breaks;
+
+    var hasUnavailablePlayer = false;
+    for (var playerIndex in $scope.formEvt.unavailablePlayers.values) {
+      if ($scope.formEvt.unavailablePlayers.values[playerIndex].length) {
+        hasUnavailablePlayer = true;
+      } else {
+        delete $scope.formEvt.unavailablePlayers.values[playerIndex];
+      }
+    }
+    if (hasUnavailablePlayer)
+      $scope.event.unavailablePlayers = $scope.formEvt.unavailablePlayers.values;
+
+    var hasUnavailableVenue = false;
+    for (var venueIndex in $scope.formEvt.unavailableVenues.values) {
+      if ($scope.formEvt.unavailableVenues.values[venueIndex].length) {
+        hasUnavailableVenue = true;
+      } else {
+        delete $scope.formEvt.unavailableVenues.values[venueIndex];
+      }
+    }
+    if (hasUnavailableVenue)
+      $scope.event.unavailableLocalizations = $scope.formEvt.unavailableVenues.values;
+
+    var hasPlayersInVenues = false;
+    for (var playerIndex in $scope.formEvt.playersInVenues.values) {
+      if ($scope.formEvt.playersInVenues.values[playerIndex].length) {
+        hasPlayersInVenues = true;
+      } else {
+        delete $scope.formEvt.playersInVenues.values[playerIndex];
+      }
+    }
+    if (hasPlayersInVenues)
+      $scope.event.playersInLocalizations = $scope.formEvt.playersInVenues.values;
+
+    var hasPlayersAtTimeslots = false;
+    for (var playerIndex in $scope.formEvt.playersAtTimeslots.values) {
+      if ($scope.formEvt.playersAtTimeslots.values[playerIndex].length) {
+        hasPlayersAtTimeslots = true;
+      } else {
+        delete $scope.formEvt.playersAtTimeslots.values[playerIndex];
+      }
+    }
+    if (hasPlayersAtTimeslots)
+      $scope.event.playersAtTimeslots = $scope.formEvt.playersAtTimeslots.values;
+
+    $scope.event.matchupMode = $scope.formEvt.matchupModes.selected.val;
+
+    $scope.tournament.events.push($scope.event);
+
+    $scope.event = {
+      playersPerMatch: 2,
+      matchesPerPlayer: 1,
+      timeslotsPerMatch: 2,
+      players: [],
+      venues: [],
+      timeslots: [],
+      breaks: []
+    };
+    $scope.formEvt = {
+      domainConfirmed: false,
+      hasTeams: false
+    };
   };
 });
 

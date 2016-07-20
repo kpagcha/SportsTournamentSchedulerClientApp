@@ -328,7 +328,7 @@ form .chip {
   cursor: pointer;
 }
 
-form .domain {
+.domain {
   border-bottom: 2px solid #dadada;
   margin-bottom: 40px;
   padding-bottom: 40px;
@@ -379,4 +379,8 @@ form .domain {
 .form-container .form-extra-container .header {
   text-align: center;
   margin-top: 25px;
+}
+
+.main-button-container {
+  margin-top: 40px;
 }

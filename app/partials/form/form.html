@@ -117,6 +117,7 @@
   </div>
 
   <div id="tournament-summary-container" class="row summary-container" ng-show="form.tournamentConfirmed">
+
     <div class="col s12 section">
       <h5 class="center">{{tournament.name}}</h5>
     </div>
@@ -138,7 +139,7 @@
         <div class="col s12 m4 l3 item" ng-repeat="venue in tournament.venues">{{venue.name}}</div>
       </div>
     </div>
-    <div class="col s12 section">
+    <div class="col s12 section domain">
       <h5 class="header center">
         {{tournament.timeslots.length}}
         <ng-pluralize count="tournament.timeslots.length" when="{'1':'timeslot','other':'timeslots'}"></ng-pluralize>
@@ -149,14 +150,133 @@
         </div>
       </div>
     </div>
+
     <div class="col s12 section" ng-show="tournament.events">
       <h5 class="header center">
         {{tournament.events.length}}
         <ng-pluralize count="tournament.events.length" when="{'1':'category','other':'categories'}"></ng-pluralize>
       </h5>
-      <div class="row" ng-repeat="event in tournament.events">
-        {{event}}
+      <div class="row domain" ng-repeat="event in tournament.events">
+        <div class="col s12 section">
+          <h5 class="center">{{event.name}}</h5>
+        </div>
+        <div class="col s12 section">
+          <h5 class="header center">
+            {{event.players.length}}
+            <ng-pluralize count="event.players.length" when="{'1':'player','other':'players'}"></ng-pluralize>
+          </h5>
+          <div class="row items-container center">
+            <div class="col s12 m4 l3 item" ng-repeat="player in event.players">{{getEventPlayerDisplay(player)}}</div>
+          </div>
+        </div>
+        <div class="col s12 section">
+          <h5 class="header center">
+            {{event.venues.length}}
+            <ng-pluralize count="event.venues.length" when="{'1':'venue','other':'venues'}"></ng-pluralize>
+          </h5>
+          <div class="row items-container center">
+            <div class="col s12 m4 l3 item" ng-repeat="venue in event.venues">{{getEventVenueDisplay(venue)}}</div>
+          </div>
+        </div>
+        <div class="col s12 section">
+          <h5 class="header center">
+            {{event.timeslots.length}}
+            <ng-pluralize count="event.timeslots.length" when="{'1':'timeslot','other':'timeslots'}"></ng-pluralize>
+          </h5>
+          <div class="row items-container center">
+            <div class="col s12 m4 l3 item" ng-repeat="timeslot in event.timeslots">
+              {{getEventTimeslotDisplay(timeslot)}}
+            </div>
+          </div>
+        </div>
+        <div class="col s12 l4 section center">
+          <strong>Players per match</strong>
+          <div>{{event.playersPerMatch}}</div>
+        </div>
+        <div class="col s12 l4 section center">
+          <strong>Matches per player</strong>
+          <div>{{event.matchesPerPlayer}}</div>
+        </div>
+        <div class="col s12 l4 section center">
+          <strong>Timeslots per match</strong>
+          <div>{{event.timeslotsPerMatch}}</div>
+        </div>
+        <div class="col s12 section" ng-show="event.breaks">
+          <h6 class="header center">Breaks</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="break in event.breaks">{{getEventTimeslotDisplay(break)}}</li>
+          </ul>
+        </div>
+        <div class="col s12 section" ng-show="event.teams">
+          <h6 class="header center">Teams</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="team in event.teams">{{getTeamDisplay(team)}}</li>
+          </ul>
+        </div>
+        <div class="col s12 section" ng-show="event.unavailablePlayers">
+          <h6 class="header center">Unavailable players</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="(player, timeslots) in event.unavailablePlayers">
+              <strong>{{getEventPlayerDisplay(player)}}:</strong> {{getTimeslotsDisplay(timeslots)}}
+            </li>
+          </ul>
+        </div>
+        <div class="col s12 section" ng-show="event.unavailableLocalizations">
+          <h6 class="header center">Unavailable venues</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="(venue, timeslots) in event.unavailableLocalizations">
+              <strong>{{getEventVenueDisplay(venue)}}:</strong> {{getTimeslotsDisplay(timeslots)}}
+            </li>
+          </ul>
+        </div>
+        <div class="col s12 section" ng-show="event.playersAtTimeslots">
+          <h6 class="header center">Players assigned to timeslots</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="(player, timeslots) in event.playersAtTimeslots">
+              <strong>{{getEventPlayerDisplay(player)}}:</strong> {{getTimeslotsDisplay(timeslots)}}
+            </li>
+          </ul>
+        </div>
+        <div class="col s12 section" ng-show="event.playersInLocalizations">
+          <h6 class="header center">Players assigned to venues</h6>
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="(player, venues) in event.playersInLocalizations">
+              <strong>{{getEventPlayerDisplay(player)}}:</strong> {{getVenuesDisplay(venues)}}
+            </li>
+          </ul>
+        </div>
+        <div class="col s12 section">
+          <h6 class="header center">Match-up mode</h6>
+          <div class="center">{{event.matchupMode}}</div>
+        </div>
+        <div class="col s12 section" ng-show="event.predefinedMatchups">
+          <h6 class="header center">Predefined match-ups</h6>
+          <table>
+            <thead>
+            <tr>
+              <th>Players</th>
+              <th>Venues</th>
+              <th>Timeslots</th>
+              <th>Occurrences</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="matchup in event.predefinedMatchups track by $index">
+              <td>{{getPlayersDisplay(matchup.players)}}</td>
+              <td>{{getVenuesDisplay(matchup.venues)}}</td>
+              <td>{{getTimeslotsDisplay(matchup.timeslots)}}</td>
+              <td>{{matchup.occurrences}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+    </div>
+
+    <div class="col s12 center">
+      <button class="btn-large btn waves-effect red" ng-click="createTournament()">
+        <i class="material-icons">done_all</i>
+      </button>
     </div>
   </div>
 

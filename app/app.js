@@ -737,6 +737,23 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
       hasTeams: false
     };
   };
+
+  $scope.getEventPlayerDisplay = function (playerIndex) {
+    return $scope.tournament.players[playerIndex].name;
+  };
+
+  $scope.getEventVenueDisplay = function (venueIndex) {
+    return $scope.tournament.venues[venueIndex].name;
+  };
+
+  $scope.getEventTimeslotDisplay = function (timeslotIndex) {
+    return $scope.getTimeslotDisplay($scope.tournament.timeslots[timeslotIndex]);
+  };
+
+
+  $scope.createTournament = function () {
+    alert("TO DO");
+  };
 });
 
 app.config(['$routeProvider', function ($routeProvider) {

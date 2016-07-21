@@ -221,6 +221,7 @@
             <div class="col s12 m4">
               <h5 class="subtitle">Venue</h5>
               <h6 class="comment grey-text">Any of:</h6>
+              <p class="light" ng-show="!matchup.localizations.length">ANY</p>
               <ul>
                 <li class="light" ng-repeat="venue in matchup.localizations | orderBy">{{getVenue(venue).name}}</li>
               </ul>
@@ -228,6 +229,7 @@
             <div class="col s12 m4">
               <h5 class="subtitle">Start</h5>
               <h6 class="comment grey-text light">Any of:</h6>
+              <p class="light" ng-show="!matchup.timeslots.length">ANY</p>
               <ul>
                 <li class="light" ng-repeat="timeslot in matchup.timeslots | orderBy">
                   {{getTimeslotDisplay(timeslot, true)}}

@@ -263,7 +263,7 @@
             <tbody>
             <tr ng-repeat="matchup in event.predefinedMatchups track by $index">
               <td>{{getPlayersDisplay(matchup.players)}}</td>
-              <td>{{getVenuesDisplay(matchup.venues)}}</td>
+              <td>{{getVenuesDisplay(matchup.localizations)}}</td>
               <td>{{getTimeslotsDisplay(matchup.timeslots)}}</td>
               <td>{{matchup.occurrences}}</td>
             </tr>
@@ -277,6 +277,7 @@
       <button class="btn-large btn waves-effect red" ng-click="createTournament()">
         <i class="material-icons">done_all</i>
       </button>
+      <p class="red-text" ng-show="error">{{error}}</p>
     </div>
   </div>
 
@@ -543,8 +544,8 @@
               <h6>Venues</h6>
               <div class="input-field col s12 m4 l3" ng-repeat="venue in formEvt.venues">
                 <input type="checkbox" id="event-matchup-venue-{{$index}}" value="{{venue.val}}"
-                       ng-checked="formEvt.matchup.venues.indexOf(venue.val) != -1"
-                       ng-click="toggle(venue.val, formEvt.matchup.venues)">
+                       ng-checked="formEvt.matchup.localizations.indexOf(venue.val) != -1"
+                       ng-click="toggle(venue.val, formEvt.matchup.localizations)">
                 <label for="event-matchup-venue-{{$index}}">{{venue.name}}</label>
               </div>
             </div>
@@ -582,7 +583,7 @@
                 <tbody>
                 <tr ng-repeat="matchup in event.predefinedMatchups track by $index">
                   <td>{{getPlayersDisplay(matchup.players)}}</td>
-                  <td>{{getVenuesDisplay(matchup.venues)}}</td>
+                  <td>{{getVenuesDisplay(matchup.localizations)}}</td>
                   <td>{{getTimeslotsDisplay(matchup.timeslots)}}</td>
                   <td>{{matchup.occurrences}}</td>
                   <td><a ng-click="deleteMatchup($index)"><i class="material-icons red-text">close</i></a></td>

@@ -384,3 +384,7 @@ form .chip {
 .main-button-container {
   margin-top: 40px;
 }
+
+#lead.section {
+  margin-bottom: 0;
+}

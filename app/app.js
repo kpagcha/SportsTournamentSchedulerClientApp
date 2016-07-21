@@ -11,6 +11,9 @@ app.factory('service', ['$http', function ($http) {
     },
     deleteTournament: function (id) {
       return $http.delete(servicePath + id);
+    },
+    createTournament: function (tournament) {
+      return $http.post(servicePath, tournament);
     }
   };
 }]);
@@ -188,10 +191,22 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
   };
 });
 
-app.controller('TournamentCreateController', function ($scope, $rootScope, service) {
+app.controller('TournamentCreateController', function ($scope, $rootScope, $window, service) {
   $rootScope.tournament = null;
 
-  // $('select').material_select();
+  $scope.createTournament = function () {
+    var tournament = angular.copy($scope.tournament);
+    tournament.localizations = angular.copy(tournament.venues);
+    delete tournament.venues;
+
+    service.createTournament(tournament)
+      .success(function (data, status) {
+        $window.location.href = "";
+      })
+      .error(function (data, status) {
+        $scope.error = data;
+      });
+  };
 
   $scope.tournament = {};
   $scope.tournament.players = [];
@@ -540,7 +555,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     };
     $scope.formEvt.matchup = {
       players: [],
-      venues: [],
+      localizations: [],
       timeslots: [],
       occurrences: 1
     };
@@ -627,7 +642,7 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
     $scope.event.predefinedMatchups.push($scope.formEvt.matchup);
     $scope.formEvt.matchup = {
       players: [],
-      venues: [],
+      localizations: [],
       timeslots: [],
       occurrences: 1
     };
@@ -748,11 +763,6 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, servi
 
   $scope.getEventTimeslotDisplay = function (timeslotIndex) {
     return $scope.getTimeslotDisplay($scope.tournament.timeslots[timeslotIndex]);
-  };
-
-
-  $scope.createTournament = function () {
-    alert("TO DO");
   };
 });
 

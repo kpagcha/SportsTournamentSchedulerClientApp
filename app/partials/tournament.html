@@ -2,6 +2,9 @@
   <div class="row">
     <h2 class="header center teal-text text-lighten-3">{{tournament.name}}</h2>
     <div class="col s12 center">
+      <button class="btn-floating btn-large waves-effect waves-light center blue" ng-click="showSchedule()">
+        <i class="material-icons">date_range</i>
+      </button>
       <button data-target="json"
               class="btn-floating btn-large waves-effect waves-light center modal-trigger">
         <i class="material-icons">visibility</i>
@@ -34,7 +37,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" ng-hide="selected == 'schedule'">
   <div id="main-content" class="col s12 l9 offset-l1">
     <div class="section">
       <div class="container">
@@ -82,3 +85,5 @@
     </div>
   </div>
 </div>
+
+<div class="row" ng-show="selected == 'schedule'" ng-include="'partials/schedule.html'"></div>

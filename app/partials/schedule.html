@@ -1,0 +1,60 @@
+<div class="container" ng-controller="ScheduleController">
+  <div class="fixed-action-btn">
+    <a class="btn-floating waves-effect waves-light green" ng-click="calculateSchedule()">
+      <i class="material-icons">date_range</i>
+    </a>
+  </div>
+
+  <div class="row center action-container">
+    <div class="col s12">
+      <button class="btn-large waves-effect waves-light green" ng-click="calculateSchedule()">Calculate</button>
+    </div>
+    <div class="col s12 input-field">
+      <input type="checkbox" ng-model="restart" id="restart">
+      <label for="restart">Restart calculation</label>
+    </div>
+  </div>
+  <p class="light center empty-schedule" ng-hide="schedule">Empty schedule!</p>
+  <p class="light center"><strong>Resolution state: </strong>{{resolutionState}}</p>
+
+  <div class="section with-header timetable schedule" ng-show="schedule">
+    <div class="row">
+      <div class="header-wrapper center">
+        <h4 class="brown-text icon-wrapper">
+          <i class="material-icons icon">date_range</i>
+        </h4>
+        <h4 class="header">Tournament schedule</h4>
+      </div>
+      <div class="content-wrapper">
+        <div class="row content">
+          <table class="responsive-table">
+            <thead>
+            <tr>
+              <th colspan="1"></th>
+              <th class="theader" ng-repeat="timeslot in tournament.timeslots">{{getTimeslotDisplay($index)}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="player in tournament.players track by $index">
+              <td class="theader player">{{player.name}}</td>
+              <td ng-repeat="timeslot in timeslots track by $index">
+                <div class="slot valign-wrapper"
+                     ng-class="{'assigned':schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED',
+                     'unavailable':schedule.scheduleValues[$parent.$index][$index].value == 'UNAVAILABLE',
+                     'break':schedule.scheduleValues[$parent.$index][$index].value == 'BREAK',
+                     'limited':schedule.scheduleValues[$parent.$index][$index].value == 'LIMITED',
+                     'not-in-domain':schedule.scheduleValues[$parent.$index][$index].value == 'NOT_IN_DOMAIN'}">
+                  <span class="white-text valign slot-value"
+                        ng-show="schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED'">
+                    {{venues[schedule.scheduleValues[$parent.$index][$index].localization].name}}
+                  </span>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

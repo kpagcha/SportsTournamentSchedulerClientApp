@@ -77,7 +77,7 @@
           <thead>
           <tr>
             <th colspan="1"></th>
-            <th class="theader" ng-repeat="timeslot in timeslots">{{getTimeslotDisplay($index)}}</th>
+            <th class="theader" ng-repeat="timeslot in timeslots">{{getEventTimeslotDisplay($index)}}</th>
           </tr>
           </thead>
           <tbody>
@@ -125,7 +125,7 @@
           <thead>
           <tr>
             <th colspan="1"></th>
-            <th class="theader" ng-repeat="timeslot in timeslots">{{getTimeslotDisplay($index)}}</th>
+            <th class="theader" ng-repeat="timeslot in timeslots">{{getEventTimeslotDisplay($index)}}</th>
           </tr>
           </thead>
           <tbody>
@@ -232,7 +232,7 @@
               <p class="light" ng-show="!matchup.timeslots.length">ANY</p>
               <ul>
                 <li class="light" ng-repeat="timeslot in matchup.timeslots | orderBy">
-                  {{getTimeslotDisplay(timeslot, true)}}
+                  {{getEventTimeslotDisplay(timeslot, true)}}
                 </li>
               </ul>
             </div>

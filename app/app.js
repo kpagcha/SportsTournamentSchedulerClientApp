@@ -14,6 +14,21 @@ app.factory('service', ['$http', function ($http) {
     },
     createTournament: function (tournament) {
       return $http.post(servicePath, tournament);
+    },
+    getSchedule: function (id) {
+      return $http.get(servicePath + id + '/schedule', {
+        params: {
+          onlyGet: true
+        }
+      })
+    },
+    calculateSchedule: function (id, p) {
+      return $http.get(servicePath + id + '/schedule', {
+        params: p
+      });
+    },
+    resolutionState: function (id) {
+      return $http.get(servicePath + id + '/schedule/resolution-state');
     }
   };
 }]);
@@ -77,12 +92,17 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
     scrollTo('#matchups');
   });
 
+  $scope.showSchedule = function () {
+    $rootScope.selected = 'schedule';
+  };
+
   $rootScope.showTournament = function () {
     $scope.players = $scope.tournament.players;
     $scope.venues = $scope.tournament.localizations;
     $scope.timeslots = $scope.tournament.timeslots;
 
     $scope.event = null;
+    $rootScope.selected = 'info';
   };
 
   $rootScope.showEvent = function (index) {
@@ -132,6 +152,10 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
 
   $scope.getTimeslotDisplay = function (index, includeChronologicalOrder) {
     return readableTimeslot(allTimeslots[index], includeChronologicalOrder);
+  };
+
+  $scope.getEventTimeslotDisplay = function (index, includeChronologicalOrder) {
+    return readableTimeslot(allTimeslots[$scope.event.timeslots[index]], includeChronologicalOrder);
   };
 
   $scope.getDurationDisplay = function (timeslot) {
@@ -764,6 +788,29 @@ app.controller('TournamentCreateController', function ($scope, $rootScope, $wind
   $scope.getEventTimeslotDisplay = function (timeslotIndex) {
     return $scope.getTimeslotDisplay($scope.tournament.timeslots[timeslotIndex]);
   };
+});
+
+app.controller('ScheduleController', function ($scope, service) {
+  service.resolutionState($scope.tournament.id).success(function (data) {
+    $scope.resolutionState = data;
+  });
+
+  $scope.calculateSchedule = function () {
+    var params = {
+      restart: $scope.restart
+    };
+    service.calculateSchedule($scope.tournament.id, params).success(function (data) {
+      $scope.schedule = data;
+      service.resolutionState($scope.tournament.id).success(function (data) {
+        $scope.resolutionState = data;
+      });
+    });
+  };
+
+  service.getSchedule($scope.tournament.id).success(function (data) {
+    $scope.schedule = data;
+    console.log(data.scheduleValues)
+  });
 });
 
 app.config(['$routeProvider', function ($routeProvider) {

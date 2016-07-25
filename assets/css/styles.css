@@ -265,44 +265,44 @@ a {
   margin-left: 5px;
 }
 
-#matchups .matchups-wrapper {
+.matchups .matchups-wrapper {
   margin-top: 25px;
 }
 
-#matchups .matchup .subtitle,
-#matchups .matchup .comment {
+.matchups .matchup .subtitle,
+.matchups .matchup .comment {
   text-transform: uppercase;
 }
 
-#matchups .matchup .subtitle {
+.matchups .matchup .subtitle {
   font-size: 20px;
 }
 
-#matchups .matchup .comment {
+.matchups .matchup .comment {
   font-size: 12px;
 }
 
-#matchups .matchup .title-wrapper {
+.matchups .matchup .title-wrapper {
   color: #fff;
   padding: 15px 10px;
   border-radius: 10px 10px 0 0;
 }
 
-#matchups .matchup .title-wrapper .title {
+.matchups .matchup .title-wrapper .title {
   margin-bottom: 0;
 }
 
-#matchups .matchups-wrapper .content {
+.matchups .matchups-wrapper .content {
   margin: 0 0 35px 0;
   padding-top: 10px;
 }
 
-#matchups .matchups-wrapper .content .occurrences-wrapper {
+.matchups .matchups-wrapper .content .occurrences-wrapper {
   background-color: #dadce8;
   padding: 10px 0;
 }
 
-#matchups .matchups-wrapper .content .occurrences-wrapper .occurrences {
+.matchups .matchups-wrapper .content .occurrences-wrapper .occurrences {
   font-size: 13px;
 }
 
@@ -401,9 +401,9 @@ form .chip {
   margin: 40px 0;
 }
 
-.empty-schedule {
+.border-top {
   border-top: 1px solid #cbcbcb;
-  padding: 30px 0;
+  padding-top: 30px;
 }
 
 .slot-value {
@@ -411,4 +411,11 @@ form .chip {
   padding: 5px;
   text-align: center;
   font-size: 12px;
+}
+
+@media (min-width: 993px) {
+  #matches {
+    width: 70%;
+    margin: 0 auto;
+  }
 }

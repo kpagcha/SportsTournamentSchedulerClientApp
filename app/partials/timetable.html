@@ -1,0 +1,93 @@
+<div class="section with-header timetable schedule">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">date_range</i>
+      </h4>
+      <h4 class="header">{{schedule.name}} Schedule</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row content">
+        <p class="light center" ng-hide="schedule.scheduleValues">Empty schedule!</p>
+        <table class="responsive-table" ng-show="schedule.scheduleValues">
+          <thead>
+          <tr>
+            <th colspan="1"></th>
+            <th class="theader" ng-repeat="timeslot in schedule.timeslots">{{getTimeslotDisplay($index)}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="player in schedule.players track by $index">
+            <td class="theader player">{{player.name}}</td>
+            <td ng-repeat="timeslot in schedule.timeslots track by $index">
+              <div class="slot valign-wrapper"
+                   ng-class="{'assigned':schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED',
+                     'unavailable':schedule.scheduleValues[$parent.$index][$index].value == 'UNAVAILABLE',
+                     'break':schedule.scheduleValues[$parent.$index][$index].value == 'BREAK',
+                     'limited':schedule.scheduleValues[$parent.$index][$index].value == 'LIMITED',
+                     'not-in-domain':schedule.scheduleValues[$parent.$index][$index].value == 'NOT_IN_DOMAIN'}">
+                  <span class="white-text valign slot-value"
+                        ng-show="schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED'">
+                    {{venues[schedule.scheduleValues[$parent.$index][$index].localization].name}}
+                  </span>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="matches" class="section with-header matchups">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">assignment</i>
+      </h4>
+      <h4 class="header">Matches</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col s12 center grey-text light counter">
+          {{schedule.matches.length}}
+          <ng-pluralize count="schedule.matches.length"
+                        when="{'1':'match','other':'matches'}"></ng-pluralize>
+        </div>
+      </div>
+      <div class="matchups-wrapper row">
+        <div class="col s12 center matchup" ng-repeat="match in schedule.matches track by $index">
+          <div class="title-wrapper green lighten-2">
+            <h5 class="header title">Match {{$index + 1}}</h5>
+          </div>
+          <div class="content row green lighten-5">
+            <div class="col s12 m3">
+              <h5 class="subtitle">Players</h5>
+              <ul>
+                <li class="light" ng-repeat="player in match.players">{{player.name}}</li>
+              </ul>
+            </div>
+            <div class="col s12 m3">
+              <h5 class="subtitle">Venue</h5>
+              <p class="light">{{match.localization.name}}</p>
+            </div>
+            <div class="col s12 m2">
+              <h5 class="subtitle">Start</h5>
+              <p class="light">{{readableTimeslot(match.startTimeslot, true)}}</p>
+            </div>
+            <div class="col s12 m2">
+              <h5 class="subtitle">End</h5>
+              <p class="light">{{readableTimeslot(match.endTimeslot, true)}}</p>
+            </div>
+            <div class="col s12 m2">
+              <h5 class="subtitle">Duration</h5>
+              <h6 class="comment grey-text">(Number of timeslots)</h6>
+              <p class="light">{{match.duration}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

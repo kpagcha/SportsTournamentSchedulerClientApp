@@ -197,6 +197,14 @@ a {
   border-radius: 5px;
 }
 
+.timetable .content .match {
+  background-color: #42a5f5;
+}
+
+.timetable .content .continuation {
+  background-color: #7abef5;
+}
+
 .timetable .content .assigned {
   background-color: #81c784;
 }

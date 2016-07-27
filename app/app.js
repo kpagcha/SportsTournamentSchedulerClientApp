@@ -15,12 +15,13 @@ app.factory('service', ['$http', function ($http) {
     createTournament: function (tournament) {
       return $http.post(servicePath, tournament);
     },
-    getSchedule: function (id) {
+    getSchedule: function (id, p) {
+      if (!p)
+        p = {};
+      p.onlyGet = true;
       return $http.get(servicePath + id + '/schedule', {
-        params: {
-          onlyGet: true
-        }
-      })
+        params: p
+      });
     },
     calculateSchedule: function (id, p) {
       return $http.get(servicePath + id + '/schedule', {
@@ -33,11 +34,15 @@ app.factory('service', ['$http', function ($http) {
     resolutionData: function (id) {
       return $http.get(servicePath + id + '/schedule/resolution-data');
     },
-    getEventSchedules: function (id) {
-      return $http.get(servicePath + id + '/schedules');
+    getEventSchedules: function (id, p) {
+      return $http.get(servicePath + id + '/schedules', {
+        params: p
+      });
     },
-    getEventSchedule: function (id, evt) {
-      return $http.get(servicePath + id + '/schedules/' + evt);
+    getEventSchedule: function (id, evt, p) {
+      return $http.get(servicePath + id + '/schedules/' + evt, {
+        params: p
+      });
     },
     stop: function (id) {
       return $http.get(servicePath + id + '/schedule/stop-resolution');
@@ -116,11 +121,7 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
     delete $scope.event;
     $rootScope.selected = 'info';
 
-    service.getSchedule($scope.tournament.id.success(function (data) {
-      $rootScope.schedule = data;
-    }));
-
-    service.getSchedule($scope.tournament.id, function (data) {
+    service.getSchedule($scope.tournament.id).success(function (data) {
       $rootScope.schedule = data;
     });
   };
@@ -152,7 +153,14 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
 
     service.getEventSchedule($scope.tournament.id, index + 1).success(function (data) {
       if (data) {
-        $rootScope.schedule = data;
+        if (!$rootScope.scheduleByVenues)
+          $rootScope.schedule = data;
+        else {
+          service.getEventSchedule($scope.tournament.id, index + 1, {byLocalizations: true}).success(function (data) {
+            if (data)
+              $rootScope.schedule = data;
+          });
+        }
       }
     });
   };
@@ -831,10 +839,23 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
     $rootScope.schedule = $scope.tournamentSchedule;
     $scope.eventSchedules = {};
 
-    service.getEventSchedules($scope.tournament.id).success(function (data) {
+    service.getEventSchedules($scope.tournament.id)
+      .success(function (data) {
+        if (data)
+          for (var keyEvt in data)
+            $scope.eventSchedules[keyEvt] = data[keyEvt];
+      });
+  });
+  service.getSchedule($scope.tournament.id, {byLocalizations: true}).success(function (data) {
+    $scope.tournamentScheduleByVenues = data;
+    $scope.tournamentScheduleByVenues.name = $scope.tournament.name;
+
+    $scope.eventSchedulesByVenues = {};
+
+    service.getEventSchedules($scope.tournament.id, {byLocalizations: true}).success(function (data) {
       if (data)
         for (var keyEvt in data)
-          $scope.eventSchedules[keyEvt] = data[keyEvt];
+          $scope.eventSchedulesByVenues[keyEvt] = data[keyEvt];
     });
   });
   service.resolutionState($scope.tournament.id).success(function (data) {
@@ -844,7 +865,11 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
     if (!data)
       return;
     $scope.resolutionData = JSON.stringify(data, null, 2);
-    $scope.totalTime = data.buildingTime + data.resolutionTime;
+
+    if ($scope.resolutionState == "STARTED")
+      $scope.totalTime = data.buildingTime + data.resolutionTime;
+    else
+      delete $scope.totalTime;
   });
 
   $scope.calculateSchedule = function () {
@@ -868,20 +893,47 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
 
         $scope.tournamentSchedule = data;
 
-        if (!$scope.event)
-          $rootScope.schedule = $scope.tournamentSchedule;
+        var evtParams = {
+          byLocalizations: $scope.scheduleByVenue
+        };
 
-        service.getEventSchedules($scope.tournament.id).success(function (data) {
+        service.getEventSchedules($scope.tournament.id, evtParams).success(function (data) {
           if (data) {
             for (var keyEvt in data) {
               $scope.eventSchedules[keyEvt] = data[keyEvt];
               $scope.eventSchedules[keyEvt].name = keyEvt;
             }
-
-            if ($scope.event)
-              $rootScope.schedule = $scope.eventSchedules[$scope.event.name];
           }
         });
+
+        service.getSchedule($scope.tournament.id, {byLocalizations: true}).success(function (data) {
+          $scope.tournamentScheduleByVenues = data;
+          $scope.tournamentScheduleByVenues.name = $scope.tournament.name;
+
+          $scope.eventSchedulesByVenues = {};
+
+          service.getEventSchedules($scope.tournament.id, {byLocalizations: true})
+            .success(function (data) {
+              if (data) {
+                for (var keyEvt in data)
+                  $scope.eventSchedulesByVenues[keyEvt] = data[keyEvt];
+
+                if ($scope.event) {
+                  if (!$rootScope.scheduleByVenues)
+                    $rootScope.schedule = $scope.eventSchedules[$scope.event.name];
+                  else
+                    $rootScope.schedule = $scope.eventSchedulesByVenues[$scope.event.name];
+                }
+              }
+            });
+        });
+
+        if (!$scope.event) {
+          if (!$rootScope.scheduleByVenues)
+            $rootScope.schedule = $scope.tournamentSchedule;
+          else
+            $rootScope.schedule = $scope.tournamentScheduleByVenues;
+        }
 
         service.resolutionState($scope.tournament.id).success(function (data) {
           $scope.resolutionState = data;
@@ -890,7 +942,11 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
         if (!$scope.resolutionData || $scope.restart) {
           service.resolutionData($scope.tournament.id).success(function (data) {
             $scope.resolutionData = JSON.stringify(data, null, 2);
-            $scope.totalTime = data.buildingTime + data.resolutionTime;
+
+            if ($scope.resolutionState == "STARTED")
+              $scope.totalTime = data.buildingTime + data.resolutionTime;
+            else
+              delete $scope.totalTime;
           });
         }
       });
@@ -904,7 +960,7 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
         if (!$scope.resolutionData || $scope.restart) {
           service.resolutionData($scope.tournament.id).success(function (data) {
             $scope.resolutionData = JSON.stringify(data, null, 2);
-            $scope.totalTime = data.buildingTime + data.resolutionTime;
+            delete $scope.totalTime;
           });
         }
 
@@ -918,6 +974,30 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
 
   $scope.readableTimeslot = function (timeslot, includeChronologicalOrder) {
     return readableTimeslot(timeslot, includeChronologicalOrder);
+  };
+
+  $scope.toggleScheduleByVenues = function () {
+    $rootScope.scheduleByVenues = !$rootScope.scheduleByVenues;
+
+    if (!$rootScope.scheduleByVenues) {
+      if (!$scope.event)
+        $rootScope.schedule = $scope.tournamentSchedule;
+      else
+        $rootScope.schedule = $scope.eventSchedules[$scope.event.name];
+    } else {
+      if (!$scope.event)
+        $rootScope.schedule = $scope.tournamentScheduleByVenues;
+      else
+        $rootScope.schedule = $scope.eventSchedulesByVenues[$scope.event.name];
+    }
+  };
+
+  $scope.getDisplayablePlayers = function (playersIndices) {
+    var players = [];
+    playersIndices.forEach(function (idx) {
+      players.push($scope.tournament.players[idx].name.slice(0, 4));
+    });
+    return players.join(',');
   };
 });
 

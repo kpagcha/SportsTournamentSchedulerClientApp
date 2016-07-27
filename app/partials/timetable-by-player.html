@@ -1,0 +1,43 @@
+<div class="section with-header timetable schedule">
+  <div class="row">
+    <div class="header-wrapper center">
+      <h4 class="brown-text icon-wrapper">
+        <i class="material-icons icon">date_range</i>
+      </h4>
+      <h4 class="header">{{schedule.name}} Schedule</h4>
+    </div>
+    <div class="content-wrapper">
+      <div class="row content">
+        <p class="light center" ng-hide="schedule.scheduleValues">Empty schedule!</p>
+        <table class="responsive-table" ng-show="schedule.scheduleValues">
+          <thead>
+          <tr>
+            <th colspan="1"></th>
+            <th class="theader" ng-repeat="timeslot in schedule.timeslots">{{getTimeslotDisplay($index)}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="player in schedule.players track by $index">
+            <td class="theader player">{{player.name}}</td>
+            <td ng-repeat="timeslot in schedule.timeslots track by $index">
+              <div class="slot valign-wrapper"
+                   ng-class="{'match':schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED',
+                     'unavailable':schedule.scheduleValues[$parent.$index][$index].value == 'UNAVAILABLE',
+                     'break':schedule.scheduleValues[$parent.$index][$index].value == 'BREAK',
+                     'limited':schedule.scheduleValues[$parent.$index][$index].value == 'LIMITED',
+                     'not-in-domain':schedule.scheduleValues[$parent.$index][$index].value == 'NOT_IN_DOMAIN'}">
+                  <span class="white-text valign slot-value"
+                        ng-show="schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED'">
+                    {{venues[schedule.scheduleValues[$parent.$index][$index].localization].name}}
+                  </span>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="'partials/matches.html'" ng-show="schedule"></div>

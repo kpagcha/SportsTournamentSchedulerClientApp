@@ -38,13 +38,17 @@
       <i class="material-icons">assessment</i>
     </button>
     <p class="light"><strong>Resolution state: </strong>{{resolutionState}}</p>
-    <p class="light" ng-show="resolutionData.resolutionTime"><i>{{totalTime}} seconds</i></p>
+    <p class="light" ng-show="totalTime"><i>{{totalTime}} seconds</i></p>
   </div>
 
   <div class="row">
     <div class="col s12 input-field center">
-      <input type="checkbox" ng-model="showSchedulesSeparatedly" id="showAll">
-      <label for="showAll">Show schedules separatedly</label>
+      <input type="checkbox" ng-model="showSchedulesSeparatedly" id="showSeparatedly">
+      <label for="showSeparatedly">Show schedules separatedly</label>
+    </div>
+    <div class="col s12 input-field center">
+      <input type="checkbox" ng-click="toggleScheduleByVenues()" id="scheduleByVenue">
+      <label for="scheduleByVenue">Show schedule by venues</label>
     </div>
   </div>
 

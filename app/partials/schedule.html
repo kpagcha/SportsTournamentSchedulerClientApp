@@ -43,20 +43,12 @@
 
   <div class="row">
     <div class="col s12 input-field center">
-      <input type="checkbox" ng-model="showSchedulesSeparatedly" id="showSeparatedly">
-      <label for="showSeparatedly">Show schedules separatedly</label>
-    </div>
-    <div class="col s12 input-field center">
       <input type="checkbox" ng-click="toggleScheduleByVenues()" id="scheduleByVenue">
       <label for="scheduleByVenue">Show schedule by venues</label>
     </div>
   </div>
 
-  <div class="row" ng-hide="showSchedulesSeparatedly" ng-include="'partials/timetable.html'"></div>
-
-  <div class="row" ng-show="showSchedulesSeparatedly" ng-repeat="(key, schedule) in eventSchedules"
-       ng-include="'partials/timetable.html'">
-  </div>
+  <div class="row" ng-include="'partials/timetable.html'"></div>
 
   <div id="resolution-data" class="modal modal-fixed-footer">
     <div class="modal-content">

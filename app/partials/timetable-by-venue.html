@@ -27,7 +27,7 @@
                      'limited':schedule.scheduleValues[$parent.$index][$index].value == 'LIMITED'}">
                   <span class="white-text valign slot-value"
                         ng-show="schedule.scheduleValues[$parent.$index][$index].value == 'OCCUPIED'">
-                    {{getDisplayablePlayers(schedule.scheduleValues[$parent.$index][$index].players)}}
+                    {{getDisplayablePlayers(schedule, schedule.scheduleValues[$parent.$index][$index].players)}}
                   </span>
               </div>
             </td>
@@ -36,7 +36,27 @@
         </table>
       </div>
     </div>
+    <div class="legend">
+      <div class="row">
+        <div class="col s12 m4 item match">
+          <div class="color"></div>
+          <small class="light description">Match</small>
+        </div>
+        <div class="col s12 m4 item continuation">
+          <div class="color"></div>
+          <small class="light description">Match continuation</small>
+        </div>
+        <div class="col s12 m4 item unavailable">
+          <div class="color"></div>
+          <small class="light description">Venue unavailable at timeslot</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 item limited">
+          <div class="color"></div>
+          <small class="light description">Venue unavailable at timeslot in some categories</small>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<div ng-include="'partials/matches.html'" ng-show="schedule"></div>

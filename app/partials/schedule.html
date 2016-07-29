@@ -38,6 +38,9 @@
       <i class="material-icons">assessment</i>
     </button>
     <p class="light"><strong>Resolution state: </strong>{{resolutionState}}</p>
+    <p class="light" ng-show="nSolutions">
+      <i>{{nSolutions}} <ng-pluralize count="nSolutions" when="{'1':'solution','other':'solutions'}"></ng-pluralize></i>
+    </p>
     <p class="light" ng-show="totalTime"><i>{{totalTime}} seconds</i></p>
   </div>
 
@@ -49,6 +52,31 @@
   </div>
 
   <div class="row" ng-include="'partials/timetable.html'"></div>
+
+  <div class="row">
+    <div class="col s12 l8 offset-l2">
+      <table>
+        <thead>
+          <tr>
+            <th>Total timeslots</th>
+            <th>Available timeslots</th>
+            <th>Occupied timeslots</th>
+            <th>Occupation (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{schedule.totalTimeslots}}</td>
+            <td>{{schedule.availableTimeslots}}</td>
+            <td>{{schedule.occupation}}</td>
+            <td>{{schedule.occupationRatio * 100 | number: 2}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div ng-include="'partials/matches.html'" ng-show="schedule"></div>
 
   <div id="resolution-data" class="modal modal-fixed-footer">
     <div class="modal-content">

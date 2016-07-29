@@ -248,24 +248,39 @@ a {
   height: 15px;
 }
 
-.legend .item.break .color {
-  background-color: #eee;
-  border: 1px solid #e0e0e0;
+.legend .item.match .color {
+  background-color: #42a5f5;
+  border: 1px solid #3a87cf;
 }
 
-.timetable .legend .item.break .color {
-  background-color: #757575;
-  border: 1px solid #6a6a6a;
+.legend .item.break .color {
+  background-color: #888888;
+  border: 1px solid #545454;
 }
 
 .legend .item.unavailable .color {
   background-color: #ef5350;
-  border: 1px solid #ef5350;
+  border: 1px solid #c34845;
 }
 
 .legend .item.assigned .color {
   background-color: #81c784;
   border: 1px solid #81c784;
+}
+
+.legend .item.continuation .color {
+  background-color: #7abef5;
+  border: 1px solid #639ac6;
+}
+
+.legend .item.limited .color {
+  background-color: #f3f0d9;
+  border: 1px solid #d9d6c1;
+}
+
+.legend .item.not-in-domain .color {
+  background-color: #e6e6e6;
+  border: 1px solid #c4c4c4;
 }
 
 .legend .item .description {

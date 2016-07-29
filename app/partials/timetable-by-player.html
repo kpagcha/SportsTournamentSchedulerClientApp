@@ -37,7 +37,31 @@
         </table>
       </div>
     </div>
+    <div class="legend">
+      <div class="row">
+        <div class="col s12 m4 item match">
+          <div class="color"></div>
+          <small class="light description">Match</small>
+        </div>
+        <div class="col s12 m4 item unavailable">
+          <div class="color"></div>
+          <small class="light description">Player unavailable at timeslot</small>
+        </div>
+        <div class="col s12 m4 item break">
+          <div class="color"></div>
+          <small class="light description">Break</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m6 item limited">
+          <div class="color"></div>
+          <small class="light description">Not all venues available at timeslot</small>
+        </div>
+        <div class="col s12 m6 item not-in-domain">
+          <div class="color"></div>
+          <small class="light description">Timeslot out of range</small>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<div ng-include="'partials/matches.html'" ng-show="schedule"></div>

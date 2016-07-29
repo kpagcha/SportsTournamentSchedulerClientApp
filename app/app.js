@@ -46,6 +46,9 @@ app.factory('service', ['$http', function ($http) {
     },
     stop: function (id) {
       return $http.get(servicePath + id + '/schedule/stop-resolution');
+    },
+    getNumberOfSolutions: function (id) {
+      return $http.get(servicePath + id + '/schedule/found-solutions');
     }
   };
 }]);
@@ -121,7 +124,7 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
     delete $scope.event;
     $rootScope.selected = 'info';
 
-    service.getSchedule($scope.tournament.id).success(function (data) {
+    service.getSchedule($scope.tournament.id, {byLocalizations: $rootScope.scheduleByVenues}).success(function (data) {
       $rootScope.schedule = data;
     });
   };
@@ -151,18 +154,11 @@ app.controller('TournamentController', function ($scope, $rootScope, $routeParam
       $scope.timeslots.push(allTimeslots[i]);
     });
 
-    service.getEventSchedule($scope.tournament.id, index + 1).success(function (data) {
-      if (data) {
-        if (!$rootScope.scheduleByVenues)
+    service.getEventSchedule($scope.tournament.id, index + 1, {byLocalizations: $rootScope.scheduleByVenues})
+      .success(function (data) {
+        if (data)
           $rootScope.schedule = data;
-        else {
-          service.getEventSchedule($scope.tournament.id, index + 1, {byLocalizations: true}).success(function (data) {
-            if (data)
-              $rootScope.schedule = data;
-          });
-        }
-      }
-    });
+      });
   };
 
   $rootScope.deleteTournament = function () {
@@ -939,6 +935,10 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
           $scope.resolutionState = data;
         });
 
+        service.getNumberOfSolutions($scope.tournament.id).success(function (data) {
+          $scope.nSolutions = data;
+        });
+
         if (!$scope.resolutionData || $scope.restart) {
           service.resolutionData($scope.tournament.id).success(function (data) {
             $scope.resolutionData = JSON.stringify(data, null, 2);
@@ -992,10 +992,13 @@ app.controller('ScheduleController', function ($scope, $rootScope, service) {
     }
   };
 
-  $scope.getDisplayablePlayers = function (playersIndices) {
+  $scope.getDisplayablePlayers = function (schedule, playersIndices) {
+    if (!schedule || !playersIndices)
+      return;
+
     var players = [];
     playersIndices.forEach(function (idx) {
-      players.push($scope.tournament.players[idx].name.slice(0, 4));
+      players.push(schedule.players[idx].name.slice(0, 4));
     });
     return players.join(',');
   };
